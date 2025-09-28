@@ -4,6 +4,14 @@
   --Cyan: #00e0ff;
   --Very-Dark-Blue: #0d0c1c;
   --Dark-Gray: #696969;
+  --white: #ffffff;
+  --pink: #ff00cc;
+  --cyan: #00e0ff;
+  --dark: #0d0c1c;
+  --muted: #696969;
+  --bg1: #2c5364;
+  --bg2: #1a1a2e;
+  --bg3: #3a3a66;
 }
 
 body {
@@ -15,4 +23,6 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--White);
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
