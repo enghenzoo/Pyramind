@@ -1,71 +1,96 @@
 import React from "react";
+import { FaLaptopCode, FaServer, FaPuzzlePiece, FaUsers, FaBolt } from "react-icons/fa";
 import "./About.css";
-import { FaLaptopCode } from "react-icons/fa";
-import { FaServer } from "react-icons/fa";
 
 const About = () => {
-  return (
-    <div className="landing-container">
-      <h1 className="about-title">PyraMind</h1>
-      <h2 className="about-subtitle">
+return (
+    <>
+      {/* Landing Section */}
+        <div className="landing-container">
+        <h1 className="about-title">PyraMind</h1>
+        <h2 className="about-subtitle">
         Solve puzzles, beat the clock, and uncover hidden mysteries.
-      </h2>
+        </h2>
+        </div>
 
-      {/* About */}
-      <section className="about-section">
-        <h3 className="about-section-title">ABOUT PYRAMIND</h3>
+      {/* Game Description */}
+        <section className="about-section">
+        <h3 className="about-section-title">GAME DESCRIPTION</h3>
         <p>
-          PyraMind is a fully interactive puzzle game designed to challenge
-          players’ problem-solving and logical thinking skills through a series
-          of progressive levels.
+        <strong>PyraMind</strong> is an immersive puzzle game designed to challenge 
+            your mind and sharpen your problem-solving skills. <br />
+            Each level brings new challenges, hidden mysteries, and exciting puzzles that push players to think 
+            critically and creatively.
         </p>
-      </section>
+        </section>
 
-      {/* Engaging Design */}
-      <section className="about-section">
-        <h3 className="about-section-title">ENGAGING DESIGN</h3>
+      {/* Vision */}
+        <section className="about-section">
+        <h3 className="about-section-title">VISION</h3>
         <p>
-          The game combines an engaging design with a smooth functionality,
-          offering unique experiences. Solve key challenges as levels progress,
-          ensuring gameplay remains mentally stimulating.
+        Our goal is to create a game that’s not only fun but also intellectually 
+        stimulating a game that helps players improve their logical thinking, 
+        strategy planning, and cognitive skills while enjoying every moment.
         </p>
-      </section>
+        </section>
+
+      {/* Key Features */}
+        <section className="about-section">
+        <h3 className="about-section-title">KEY FEATURES</h3>
+        <div className="about-cards">
+        <div className="card cyan">
+            <FaPuzzlePiece size={28} />
+            <h4>Challenging Puzzles</h4>
+            <p>Engage with unique puzzles that test your creativity and problem-solving abilities.</p>
+        </div>
+        <div className="card pink">
+            <FaBolt size={28} />
+            <h4>Time-based Challenges</h4>
+            <p>Race against the clock to complete levels and achieve the highest score.</p>
+        </div>
+        <div className="card cyan">
+            <FaUsers size={28} />
+            <h4>Community Play</h4>
+            <p>Compete with friends and players worldwide for top leaderboard positions.</p>
+        </div>
+        </div>
+        </section>
 
       {/* Technology */}
-      <section className="about-section">
+        <section className="about-section">
         <h3 className="about-section-title">TECHNOLOGY</h3>
         <div className="about-cards">
-          <div className="card cyan">
+        <div className="card cyan">
             <FaLaptopCode size={28} />
             <h4>FRONT-END</h4>
-            <p>Modern React interface for a dynamic responsive UI.</p>
-          </div>
-          <div className="card pink">
+            <p>
+            Built with <strong>React</strong> for a dynamic, responsive, and smooth gaming experience.
+            </p>
+            </div>
+            <div className="card pink">
             <FaServer size={28} />
-            <h4>MEET YOUR ALLIED HINTS</h4>
-            <p>Powerful .Net for APIs, game logic, and data.</p>
-          </div>
+            <h4>BACK-END</h4>
+            <p>
+            Powered by <strong>.NET</strong> to handle game logic, APIs, and data securely and efficiently.
+            </p>
         </div>
-      </section>
+        </div>
+        </section>
 
-      {/* More Than Entertainment */}
-      <section className="about-section">
-        <h3 className="about-section-title">MORE THAN ENTERTAINMENT</h3>
+      {/* Target Audience */}
+        <section className="about-section">
+        <h3 className="about-section-title">TARGET AUDIENCE</h3>
         <p>
-          This game delivers more than just entertainment—it’s designed to
-          enhance cognitive skills, encourage strategic thinking, and provide
-          timeless fun for anyone looking for quick challenges or deep puzzle
-          journeys.
+        PyraMind is designed for puzzle lovers, gamers looking for mental challenges,
+        and anyone who enjoys problem-solving games from casual players to dedicated strategists.
         </p>
-      </section>
+        </section>
 
-      {/* Buttons */}
-      <div className="buttons">
-        <button className="btn cyan">ENTER THE GRID</button>
-        <button className="btn pink">LEARN MORE</button>
-      </div>
-    </div>
-  );
+      {/* Call To Action (CTA) */}
+        <div className="buttons">
+        <button className="btn cyan">START YOUR JOURNEY</button>
+        </div>
+    </>
+);
 };
-
 export default About;
