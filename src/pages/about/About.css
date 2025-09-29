@@ -8,9 +8,7 @@
   font-size: 5rem;
   color: var(--Deep-Pink);
   margin-bottom: 5px;
-  text-shadow: 0 0 7px var(--Deep-Pink), 0 0 10px var(--Deep-Pink),
-    0 0 21px var(--Deep-Pink), 0 0 42px var(--Deep-Pink),
-    0 0 82px var(--Deep-Pink);
+   text-shadow: 0 0 15px var(--Deep-Pink);
 }
 .about-subtitle {
   font-size: 1.5rem;
