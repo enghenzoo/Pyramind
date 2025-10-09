@@ -1,12 +1,3 @@
-/* General Page Setup */
-body {
-    background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-    color: var(--White);
-    font-family: "Poppins", sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
 /* Navbar */
 .navbar {
     background-color: rgba(20, 0, 50, 0.6) !important;
