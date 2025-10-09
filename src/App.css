@@ -14,9 +14,7 @@ body {
   padding: 0;
   font-family: "Poppins", sans-serif;
   background-color: var(--Very-Dark-Blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow-x: hidden;
   color: var(--White);
   box-sizing: border-box;
   overflow-x: hidden;
