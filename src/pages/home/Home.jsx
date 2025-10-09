@@ -1,77 +1,3 @@
-// import React from "react";
-// import { FaPlay, FaInfoCircle, FaDiscord, FaTwitter, FaUsers } from "react-icons/fa";
-// import "./Home.css";
-// import Logo from "../assets/Logo.jpg";
-
-// export default function Home() {
-//   return (
-//     <div className="home-page text-light">
-
-//       {/* ================= Navbar ================= */}
-//       <nav className="navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
-//         <a className="navbar-brand d-flex align-items-center fw-bold brand-text" href="#">
-//           <img src={Logo} alt="Pyramind Logo" className="Logo me-2" />
-//           PYRAMIND
-//         </a>
-
-//         <button
-//           className="navbar-toggler"
-//           type="button"
-//           data-bs-toggle="collapse"
-//           data-bs-target="#navbarNav"
-//         >
-//           <span className="navbar-toggler-icon"></span>
-//         </button>
-
-//         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-//           <ul className="navbar-nav gap-4">
-//             <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
-//             <li className="nav-item"><a className="nav-link" href="#features">Features</a></li>
-//             <li className="nav-item"><a className="nav-link" href="#community">Community</a></li>
-//             <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
-//           </ul>
-//           <button className="btn sign-up-btn ms-4 px-4 py-2 fw-bold">Sign Up</button>
-//         </div>
-//       </nav>
-
-//       {/* ================= Hero Section ================= */}
-//       <div className="hero d-flex flex-column justify-content-center align-items-center text-center">
-//         <h1 className="fw-bold display-3">HACK THE PYRAMIND</h1>
-//         <h2 className="fw-semibold mt-3">
-//           Code Your Way Through Worlds of Chaos and Conquest
-//         </h2>
-//         <p className="mt-4 w-75">
-//           Immerse yourself in story-driven coding challenges where every line of
-//           code shapes your destiny. Battle through cyberpunk realms, solve
-//           algorithmic puzzles, and become the ultimate digital architect.
-//         </p>
-
-//         <div className="mt-5 d-flex gap-4">
-//           <button className="btn enter-btn px-4 py-2 fw-bold">
-//             <FaPlay className="me-2" /> ENTER THE GRID
-//           </button>
-//           <button className="btn learn-btn px-4 py-2 fw-bold">
-//             <FaInfoCircle className="me-2" /> LEARN MORE
-//           </button>
-//         </div>
-//       </div>
-
-//       {/* ================= Footer ================= */}
-//       <footer className="footer text-center py-3 text-light">
-//         <p>© 2025 Pyramind. All rights reserved.</p>
-//       </footer>
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-
-
 import React from "react";
 import { FaPlay, FaInfoCircle, FaDiscord, FaTwitter, FaUsers, FaPuzzlePiece, FaCode, FaTrophy } from "react-icons/fa";
 import "./Home.css";
@@ -204,4 +130,5 @@ export default function Home() {
       </footer>
     </div>
   );
+
 }
