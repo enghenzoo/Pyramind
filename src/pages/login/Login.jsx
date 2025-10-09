@@ -2,7 +2,6 @@ import { FaRocket } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import React, { useState } from "react";
-import "../register/Register.css";
 
 function Login() {
   const [username, setUsername] = useState("");
