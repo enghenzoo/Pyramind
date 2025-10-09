@@ -120,7 +120,6 @@ export default function Home() {
     <button className="btn enter-btn px-4 py-2 fw-bold">
       <FaPlay className="me-2" /> ENTER THE GRID
     </button>
-    <button className="btn sign-up-btn px-4 py-2 fw-bold">Sign Up</button>
   </div>
 </section>
 
@@ -130,5 +129,4 @@ export default function Home() {
       </footer>
     </div>
   );
-
 }
