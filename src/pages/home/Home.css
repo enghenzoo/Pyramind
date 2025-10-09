@@ -1,0 +1,317 @@
+/* General Page Setup */
+body {
+    background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    color: var(--White);
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+    background-color: rgba(20, 0, 50, 0.6) !important;
+    border-bottom: 1px solid var(--Deep-Pink);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--Cyan) !important;
+    text-shadow: 0 0 10px var(--Cyan);
+    position: sticky;
+        top: 0;
+        z-index: 999;
+}
+
+.nav-link {
+    color: var(--Cyan) !important;
+    text-shadow: 0 0 10px var(--Cyan);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    color: var(--White) !important;
+text-shadow:
+        0 0 8px var(--Deep-Pink),
+        0 0 16px var(--Deep-Pink),
+        0 0 24px var(--Deep-Pink),
+        0 0 32px var(--Deep-Pink);
+}
+
+.navbar-brand img {
+    vertical-align: middle;
+}
+
+.Logo {
+    width: 50px;
+    height: auto;
+}
+
+.Logo:hover {
+    transform: scale(1.1);
+}
+
+/* PYRAMIND-Text */
+.brand-text {
+    font-size: 1.5rem;
+    color: var(--Cyan);
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+
+.btn-outline-pink {
+    border: 2px solid var(--Deep-Pink);
+    color: var(--Deep-Pink);
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-outline-pink:hover {
+    background: var(--Deep-Pink);
+    color: var(--White);
+    box-shadow: 0 0 20px var(--Deep-Pink);
+}
+
+.hero {
+    position: relative;
+    text-align: center;
+    background: url("../assets/Back-Ground-img.jpg") center/cover no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100vw;
+    margin: 0;
+    left: 0;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(60, 0, 100, 0.3);
+    z-index: 0;
+}
+
+.hero * {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-weight: 900;
+    font-size: 5rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--White);
+    text-shadow:
+        0 0 10px var(--Deep-Pink),
+        0 0 20px var(--Deep-Pink),
+        0 0 40px var(--Deep-Pink),
+        0 0 80px var(--Deep-Pink);
+}
+
+.hero h2 {
+    color: var(--Cyan);
+    font-weight: 600;
+    margin-top: 20px;
+    text-shadow: 
+    0 0 10px var(--Cyan),
+        0 0 20px var(--Cyan),
+        0 0 40px var(--Cyan),
+        0 0 80px var(--Cyan);
+}
+
+.hero p {
+    max-width: 700px;
+    margin: 30px auto;
+    color: var(--White);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.btn-pink {
+    background: var(--Deep-Pink);
+    border: none;
+    color: var(--White);
+    font-weight: 600;
+    box-shadow: 0 0 20px var(--Deep-Pink);
+    transition: all 0.3s ease;
+}
+
+.btn-pink:hover {
+    background: var(--Cyan);
+    box-shadow: 0 0 25px var(--Cyan);
+    transform: translateY(-2px);
+}
+
+.btn-outline-cyan {
+    border: 2px solid var(--Cyan);
+    color: var(--Cyan);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-cyan:hover {
+    background: rgba(0, 224, 255, 0.1);
+    box-shadow: 0 0 25px var(--Cyan);
+    transform: translateY(-2px);
+}
+
+/* Sign Up */
+.sign-up-btn {
+    color: var(--Deep-Pink);
+    border: 2px solid var(--Deep-Pink);
+    background-color: transparent;
+    transition: 0.3s ease;
+}
+
+.sign-up-btn:hover {
+    background-color: var(--Deep-Pink);
+    color: var(--White);
+    box-shadow: 0 0 10px var(--Deep-Pink);
+}
+
+/* Neon Animation */
+@keyframes glowPulse {
+    0% {
+        text-shadow: 0 0 10px var(--Deep-Pink), 0 0 20px var(--Cyan);
+    }
+
+    50% {
+        text-shadow: 0 0 30px var(--Deep-Pink), 0 0 50px var(--Cyan);
+    }
+
+    100% {
+        text-shadow: 0 0 10px var(--Deep-Pink), 0 0 20px var(--Cyan);
+    }
+}
+
+.hero h1 {
+    animation: glowPulse 2s infinite alternate;
+}
+
+/* ENTER THE GRID */
+.enter-btn {
+    background: transparent;
+    border-color: var(--Deep-Pink);
+    color: var(--Deep-Pink);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 0 15px var(--Deep-Pink);
+    transition: all 0.3s ease;
+}
+
+.enter-btn:hover {
+    background: var(--Deep-Pink);
+    box-shadow: 0 0 25px var(--Deep-Pink);
+    transform: translateY(-3px);
+}
+
+/* LEARN MORE */
+.learn-btn {
+    background: transparent;
+    border-color: var(--Cyan);
+    color: var(--Cyan);
+    box-shadow: 0 0 15px var(--Cyan);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.learn-btn:hover {
+    background: var(--Cyan);
+    box-shadow: 0 0 25px var(--Cyan);
+    color: var(--White);
+    transform: translateY(-3px);
+} 
+
+/*Features Section*/
+.features-section {
+    background: rgba(20, 0, 50, 0.6);
+    padding: 80px 20px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--Cyan);
+    text-shadow: 0 0 10px var(--Cyan);
+}
+
+.features-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background: rgba(20, 0, 50, 0.6);
+    border: 1px solid var(--Cyan);
+    border-radius: 15px;
+    width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px var(--Cyan);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--Cyan);
+}
+
+/*Audience Section*/
+.audience-section {
+background: rgba(20, 0, 50, 0.6);
+    padding: 80px 20px;
+}
+
+.audience-card {
+    border: 1px solid var(--Cyan);
+    border-radius: 15px;
+    width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.audience-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px var(--Cyan);
+}
+
+/* Community Section*/
+.community-section {
+    background: rgba(20, 0, 50, 0.6);
+    padding: 80px 20px;
+}
+
+.community-section .btn {
+    font-weight: 700;
+    box-shadow: 0 0 15px var(--Deep-Pink);
+    color: var(--Deep-Pink);
+    border-color: var(--Deep-Pink);
+}
+
+.community-section .btn:hover {
+    box-shadow: 0 0 25px var(--Deep-Pink);
+}
+
+/*Final CTA*/
+.final-cta {
+    background: rgba(20, 0, 50, 0.6);
+    padding: 80px 20px;
+}
+
+.footer{
+    background: rgba(20, 0, 50, 0.6);
+}
