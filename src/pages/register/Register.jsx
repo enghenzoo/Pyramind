@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaRocket, FaGoogle, FaGithub } from "react-icons/fa";
-import Logo from "../assets/Logo.jpg"; 
+import Logo from "../../assets/Logo.jpg";
 import "./Register.css";
 function Register() {
   const [username, setUsername] = useState("");
@@ -78,7 +78,9 @@ function Register() {
       <div className="register-wrapper">
         <form className="register-box" onSubmit={handleSubmit}>
           <h1>FORGE YOUR DIGITAL IDENTITY</h1>
-          <p className="subtitle">Unlock Infinite Code Realms in the PyraMind</p>
+          <p className="subtitle">
+            Unlock Infinite Code Realms in the PyraMind
+          </p>
 
           <div className="form-group">
             <label>Username</label>
@@ -134,12 +136,12 @@ function Register() {
           </div>
 
           <div className="d-flex gap-2">
-              <button type="button" className="google-btn">
-            <FaGoogle /> Google
-          </button>
-          <button type="button" className="github-btn">
-            <FaGithub /> GitHub
-          </button>
+            <button type="button" className="google-btn">
+              <FaGoogle /> Google
+            </button>
+            <button type="button" className="github-btn">
+              <FaGithub /> GitHub
+            </button>
           </div>
 
           <p className="subtitle2 mt-3">

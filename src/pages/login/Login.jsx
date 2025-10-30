@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaRocket, FaGoogle, FaGithub } from "react-icons/fa";
-import Logo from "../assets/Logo.jpg"; 
+import Logo from "../../assets/Logo.jpg";
 import "./Login.css";
 
 function Login() {
@@ -65,13 +65,12 @@ function Login() {
                 </a>
               </li>
             </ul>
-        <button
-  className="btn-up sign-up-btn ms-4 px-4 py-2 fw-bold"
-  style={{ border: "2px solid Deep-Pink", borderRadius: "8px" }}
->
-  Sign Up
-</button>
-
+            <button
+              className="btn-up sign-up-btn ms-4 px-4 py-2 fw-bold"
+              style={{ border: "2px solid Deep-Pink", borderRadius: "8px" }}
+            >
+              Sign Up
+            </button>
           </div>
         </div>
       </nav>
@@ -80,7 +79,9 @@ function Login() {
       <div className="register-wrapper">
         <form className="register-box" onSubmit={handleSubmit}>
           <h1>CONTINUE YOUR QUEST</h1>
-          <p className="subtitle">Unlock Infinite Code Realms in the PyraMind</p>
+          <p className="subtitle">
+            Unlock Infinite Code Realms in the PyraMind
+          </p>
 
           <div className="form-group">
             <label>Username</label>
@@ -128,7 +129,7 @@ function Login() {
         </form>
       </div>
 
-      {/*  Footer */ }
+      {/*  Footer */}
       <footer className="text-center py-3 text-white">
         &copy; {new Date().getFullYear()} PyraMind. All rights reserved.
       </footer>
