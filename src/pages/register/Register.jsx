@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { FaRocket, FaGoogle, FaGithub } from "react-icons/fa";
-import Logo from "../../assets/Logo.jpg";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
+
 import "./Register.css";
+
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Username:", username);
@@ -17,62 +21,7 @@ function Register() {
 
   return (
     <>
-      {/* Navbar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
-        <div className="container-fluid">
-          <a
-            className="navbar-brand d-flex align-items-center fw-bold brand-text"
-            href="#"
-          >
-            <img src={Logo} alt="Pyramind Logo" className="Logo me-2" />
-            PYRAMIND
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div
-            className="collapse navbar-collapse justify-content-end"
-            id="navbarNav"
-          >
-            <ul className="navbar-nav gap-4">
-              <li className="nav-item">
-                <a className="nav-link" href="#description">
-                  About
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#features">
-                  Games
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#community">
-                  Community
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#contact">
-                  Contact
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#login">
-                  Login
-                </a>
-              </li>
-            </ul>
-            <button className="btn sign-up-btn ms-4 px-4 py-2 fw-bold">
-              Sign Up
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Register Form */}
       <div className="register-wrapper">
@@ -135,7 +84,7 @@ function Register() {
             <span>OR SYNC WITH</span>
           </div>
 
-          <div className="d-flex gap-2">
+          <div className="d-flex gap-2 justify-content-center">
             <button type="button" className="google-btn">
               <FaGoogle /> Google
             </button>
@@ -150,10 +99,7 @@ function Register() {
         </form>
       </div>
 
-      {/* Footer */}
-      <footer className="text-center py-3 text-white">
-        &copy; {new Date().getFullYear()} PyraMind. All rights reserved.
-      </footer>
+      <Footer />
     </>
   );
 }
