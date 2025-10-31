@@ -4,73 +4,22 @@ import {
   FaInfoCircle,
   FaDiscord,
   FaTwitter,
-  FaUsers,
   FaPuzzlePiece,
   FaCode,
   FaTrophy,
 } from "react-icons/fa";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
+
+
 import "./Home.css";
-import Logo from "../../assets/Logo.jpg";
+
 export default function Home() {
   return (
     <div className="home-page text-light">
-      {/* Navbar*/}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
-        <a
-          className="navbar-brand d-flex align-items-center fw-bold brand-text"
-          href="#"
-        >
-          <img src={Logo} alt="Pyramind Logo" className="Logo me-2" />
-          PYRAMIND
-        </a>
+      <Navbar />
 
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul className="navbar-nav gap-4">
-            <li className="nav-item">
-              <a className="nav-link" href="#about">
-                About
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#games">
-                Games
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#community">
-                Community
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#contact">
-                Contact
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#login">
-                Login
-              </a>
-            </li>
-          </ul>
-          <button className="btn sign-up-btn ms-4 px-4 py-2 fw-bold">
-            Sign Up
-          </button>
-        </div>
-      </nav>
-
-      {/*Hero Section*/}
+      {/* Hero Section */}
       <div className="hero d-flex flex-column justify-content-center align-items-center text-center">
         <h1 className="fw-bold display-3">HACK THE PYRAMIND</h1>
         <h2 className="fw-semibold mt-3">
@@ -96,7 +45,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/*About/Features Section*/}
+      {/* About / Features Section */}
       <section id="features" className="features-section py-5 text-center">
         <h2 className="section-title mb-4">What is PyraMind?</h2>
         <div className="features-container d-flex justify-content-center flex-wrap gap-4">
@@ -105,7 +54,7 @@ export default function Home() {
             <h5>Story-Driven Coding Challenges</h5>
             <p>
               Immerse yourself in challenges tied to an exciting story, where
-              every line of code shapes your destiny.{" "}
+              every line of code shapes your destiny.
             </p>
           </div>
           <div className="feature-card p-4">
@@ -123,7 +72,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Who is this for?*/}
+      {/* Audience Section */}
       <section id="audience" className="audience-section py-5 text-center">
         <h2 className="section-title mb-4">Who is this platform for?</h2>
         <div className="audience-cards d-flex justify-content-center flex-wrap gap-4">
@@ -151,7 +100,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Community Section*/}
+      {/* Community Section */}
       <section id="community" className="community-section py-5 text-center">
         <h2 className="section-title mb-4">Join the Community</h2>
         <div className="d-flex justify-content-center gap-3 flex-wrap">
@@ -164,7 +113,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Final CTA*/}
+      {/* Final CTA */}
       <section id="cta" className="final-cta py-5 text-center">
         <h2 className="section-title mb-4">
           Are you ready to hack the PyraMind?
@@ -176,10 +125,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Footer*/}
-      <footer className="footer text-center py-3 text-light">
-        <p>&copy; 2025 PyraMind. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
