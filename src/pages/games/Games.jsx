@@ -1,21 +1,19 @@
 import React from "react";
 import { FaTrophy, FaCode, FaBolt } from "react-icons/fa";
 import "./Games.css";
-
-// assets
 import game1Img from "../../assets/game1.png";
 import game2Img from "../../assets/game2.png";
 import logoImg from "../../assets/Logo.jpg";
 
 /* Navbar component */
 const Navbar = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
+  <nav className="pm-navbar navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
     <div className="container-fluid">
       <a
         className="navbar-brand d-flex align-items-center fw-bold brand-text"
         href="#"
       >
-        <img src={logoImg} alt="Pyramind Logo" className="Logo me-2" />
+        <img src={logoImg} alt="Pyramind Logo" className="pm-Logo me-2" />
         PYRAMIND
       </a>
       <button
@@ -31,34 +29,33 @@ const Navbar = () => (
         id="navbarNav"
       >
         <ul className="navbar-nav gap-4">
-          {}
           <li className="nav-item">
-            <a className="nav-link" href="#description">
+            <a className="pm-nav-link nav-link" href="#description">
               About
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#features">
+            <a className="pm-nav-link nav-link" href="#features">
               Games
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#community">
+            <a className="pm-nav-link nav-link" href="#community">
               Community
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#contact">
+            <a className="pm-nav-link nav-link" href="#contact">
               Contact
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#login">
+            <a className="pm-nav-link nav-link" href="#login">
               Login
             </a>
           </li>
         </ul>
-        <button className="btn sign-up-btn ms-4 px-4 py-2 fw-bold">
+        <button className="btn pm-sign-up-btn ms-4 px-4 py-2 fw-bold">
           Sign Up
         </button>
       </div>
@@ -75,37 +72,37 @@ const GameCard = ({
   progress = 60,
 }) => {
   return (
-    <div className="game-card" role="article" aria-label={title}>
+    <div className="pm-games-card" role="article" aria-label={title}>
       <div
-        className="game-image"
+        className="pm-games-image"
         style={{ backgroundImage: `url(${img})` }}
         aria-hidden="true"
       />
-      <div className="game-body">
-        <h3 className="game-title">{title}</h3>
-        <p className="muted">{subtitle}</p>
+      <div className="pm-games-body">
+        <h3 className="pm-games-title">{title}</h3>
+        <p className="pm-games-muted muted">{subtitle}</p>
 
-        <div className="meta-row">
-          <div className="label">DIFFICULTY</div>
-          <div className="dots">
+        <div className="pm-games-meta-row">
+          <div className="pm-games-label">DIFFICULTY</div>
+          <div className="pm-games-dots">
             {Array.from({ length: 3 }).map((_, i) => (
               <span
                 key={i}
-                className={"dot " + (i < difficultyDots ? "active" : "")}
+                className={"pm-games-dot " + (i < difficultyDots ? "active" : "")}
               />
             ))}
           </div>
         </div>
 
-        <div className="progress-row">
-          <div className="label">PROGRESS</div>
-          <div className="progress">
-            <div className="progress-bar" style={{ width: `${progress}%` }} />
+        <div className="pm-games-progress-row">
+          <div className="pm-games-label">PROGRESS</div>
+          <div className="pm-games-progress">
+            <div className="pm-games-progress-bar" style={{ width: `${progress}%` }} />
           </div>
         </div>
 
-        <div className="card-actions">
-          <button className="play-btn">Play</button>
+        <div className="pm-games-card-actions">
+          <button className="pm-games-play-btn">Play</button>
         </div>
       </div>
     </div>
@@ -114,56 +111,56 @@ const GameCard = ({
 
 /* Sidebar component */
 const Sidebar = () => (
-  <aside className="sidebar" aria-label="Sidebar">
-    <div className="profile card hover-glow">
-      <div className="profile-top">
-        <div className="avatar">S</div>
+  <aside className="pm-games-sidebar" aria-label="Sidebar">
+    <div className="pm-games-profile pm-games-side-card pm-games-hover-glow">
+      <div className="pm-games-profile-top">
+        <div className="pm-games-avatar">S</div>
         <div>
-          <div className="name">SYNTHIA</div>
-          <div className="sub muted">Level 12 Codebreaker</div>
+          <div className="pm-games-name">SYNTHIA</div>
+          <div className="pm-games-sub pm-games-muted">Level 12 Codebreaker</div>
         </div>
       </div>
-      <div className="profile-stats">
+      <div className="pm-games-profile-stats">
         <div>
-          <span className="stat-title">Code Credits</span>
-          <span className="stat-value">2,847</span>
+          <span className="pm-games-stat-title">Code Credits</span>
+          <span className="pm-games-stat-value">2,847</span>
         </div>
         <div>
-          <span className="stat-title">Global Rank</span>
-          <span className="stat-value">#1,337</span>
+          <span className="pm-games-stat-title">Global Rank</span>
+          <span className="pm-games-stat-value">#1,337</span>
         </div>
       </div>
     </div>
 
-    <div className="achievements card">
+    <div className="pm-games-achievements pm-games-side-card">
       <h4>ACHIEVEMENTS</h4>
-      <div className="ach-grid">
-        <div className="ach">
+      <div className="pm-games-ach-grid">
+        <div className="pm-games-ach">
           <FaTrophy />
         </div>
-        <div className="ach">
+        <div className="pm-games-ach">
           <FaCode />
         </div>
-        <div className="ach">
+        <div className="pm-games-ach">
           <FaBolt />
         </div>
       </div>
     </div>
 
-    <div className="top-coders card hover-glow">
+    <div className="pm-games-top-coders pm-games-side-card pm-games-hover-glow">
       <h4>TOP CODERS</h4>
-      <ol className="rank-list">
+      <ol className="pm-games-rank-list">
         <li>
-          <span className="rank">#1</span> QuantumHack3r{" "}
-          <span className="tiny">15,847</span>
+          <span className="pm-games-rank">#1</span> QuantumHack3r{" "}
+          <span className="pm-games-tiny">15,847</span>
         </li>
         <li>
-          <span className="rank">#2</span> DataNinja{" "}
-          <span className="tiny">12,394</span>
+          <span className="pm-games-rank">#2</span> DataNinja{" "}
+          <span className="pm-games-tiny">12,394</span>
         </li>
         <li>
-          <span className="rank">#3</span> CyberMage{" "}
-          <span className="tiny">9,876</span>
+          <span className="pm-games-rank">#3</span> CyberMage{" "}
+          <span className="pm-games-tiny">9,876</span>
         </li>
       </ol>
     </div>
@@ -173,30 +170,30 @@ const Sidebar = () => (
 /* Main Games component */
 export default function Games() {
   return (
-    <div className="app-root">
+    <div className="pm-app-root">
       {/* Navbar */}
       <Navbar />
 
       {/* Hero Section */}
-      <main className="site-main">
-        <section className="hero">
-          <div className="hero-inner">
-            <h1 className="hero-title neon-glow">
+      <main className="pm-games-site-main">
+        <section className="pm-games-hero">
+          <div className="pm-games-hero-inner">
+            <h1 className="pm-games-hero-title">
               Navigate digital realms and conquer Problem Solving challenges
             </h1>
-            <p className="hero-sub">
+            <p className="pm-games-hero-sub">
               Play interactive problem solving games that teach real skills.
             </p>
-            <div className="hero-actions">
-              <button className="cta">Start Playing</button>
+            <div className="pm-games-hero-actions">
+              <button className="pm-games-cta">Start Playing</button>
             </div>
           </div>
         </section>
 
         {/* Content */}
-        <div className="content">
-          <section className="left-col">
-            <div className="levels-grid" id="games">
+        <div className="pm-games-content">
+          <section className="pm-games-left-col">
+            <div className="pm-games-levels-grid" id="games">
               <GameCard
                 title="Game 1: CODE RED"
                 subtitle="A high-stakes coding thriller where every bug is a ticking bomb."
@@ -220,7 +217,7 @@ export default function Games() {
       </main>
 
       {/* Footer */}
-      <footer className="site-footer">
+      <footer className="pm-games-site-footer">
         &copy; {new Date().getFullYear()} PyraMind. All rights reserved.
       </footer>
     </div>

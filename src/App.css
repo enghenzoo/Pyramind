@@ -1,21 +1,9 @@
-:root {
-  --White: #fff;
-  --Deep-Pink: #ff00cc;
-  --Cyan: #00e0ff;
-  --Very-Dark-Blue: #0d0c1c;
-  --Dark-Gray: #696969;
-  --bg1: #2c5364;
-  --bg2: #1a1a2e;
-  --bg3: #3a3a66;
-}
-
 body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background-color: var(--Very-Dark-Blue);
-  overflow-x: hidden;
-  color: var(--White);
-  box-sizing: border-box;
-  overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: var(--Very-Dark-Blue);
+    overflow-x: hidden;
+    color: var(--White);
+    box-sizing: border-box;
 }

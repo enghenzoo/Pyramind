@@ -1,14 +1,27 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+    --White: #fff;
+    --Deep-Pink: #ff00cc;
+    --Cyan: #00e0ff;
+    --Very-Dark-Blue: #0d0c1c;
+    --Dark-Gray: #696969;
+    --bg1: #2c5364;
+    --bg2: #1a1a2e;
+    --bg3: #3a3a66;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    --cyan: var(--Cyan); 
+    --pink: var(--Deep-Pink);
+    --dark: var(--Very-Dark-Blue);
+    --white: var(--White);
+    --muted: var(--Dark-Gray);
 }
