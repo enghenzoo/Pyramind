@@ -1,76 +1,13 @@
 import React from "react";
 import { FaTrophy, FaCode, FaBolt } from "react-icons/fa";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 import "./Games.css";
 import game1Img from "../../assets/game1.png";
 import game2Img from "../../assets/game2.png";
-import logoImg from "../../assets/Logo.jpg";
-
-/* Navbar component */
-const Navbar = () => (
-  <nav className="pm-navbar navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
-    <div className="container-fluid">
-      <a
-        className="navbar-brand d-flex align-items-center fw-bold brand-text"
-        href="#"
-      >
-        <img src={logoImg} alt="Pyramind Logo" className="pm-Logo me-2" />
-        PYRAMIND
-      </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div
-        className="collapse navbar-collapse justify-content-end"
-        id="navbarNav"
-      >
-        <ul className="navbar-nav gap-4">
-          <li className="nav-item">
-            <a className="pm-nav-link nav-link" href="#description">
-              About
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="pm-nav-link nav-link" href="#features">
-              Games
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="pm-nav-link nav-link" href="#community">
-              Community
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="pm-nav-link nav-link" href="#contact">
-              Contact
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="pm-nav-link nav-link" href="#login">
-              Login
-            </a>
-          </li>
-        </ul>
-        <button className="btn pm-sign-up-btn ms-4 px-4 py-2 fw-bold">
-          Sign Up
-        </button>
-      </div>
-    </div>
-  </nav>
-);
 
 /* Game card component */
-const GameCard = ({
-  title,
-  subtitle,
-  img,
-  difficultyDots = 2,
-  progress = 60,
-}) => {
+const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60 }) => {
   return (
     <div className="pm-games-card" role="article" aria-label={title}>
       <div
@@ -135,15 +72,9 @@ const Sidebar = () => (
     <div className="pm-games-achievements pm-games-side-card">
       <h4>ACHIEVEMENTS</h4>
       <div className="pm-games-ach-grid">
-        <div className="pm-games-ach">
-          <FaTrophy />
-        </div>
-        <div className="pm-games-ach">
-          <FaCode />
-        </div>
-        <div className="pm-games-ach">
-          <FaBolt />
-        </div>
+        <div className="pm-games-ach"><FaTrophy /></div>
+        <div className="pm-games-ach"><FaCode /></div>
+        <div className="pm-games-ach"><FaBolt /></div>
       </div>
     </div>
 
@@ -217,9 +148,7 @@ export default function Games() {
       </main>
 
       {/* Footer */}
-      <footer className="pm-games-site-footer">
-        &copy; {new Date().getFullYear()} PyraMind. All rights reserved.
-      </footer>
+      <Footer />
     </div>
   );
 }
