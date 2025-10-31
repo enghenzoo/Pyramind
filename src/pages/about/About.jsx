@@ -1,4 +1,7 @@
 import React from "react";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
+
 import {
   FaLaptopCode,
   FaServer,
@@ -6,78 +9,13 @@ import {
   FaUsers,
   FaBolt,
 } from "react-icons/fa";
-import Logo from "../../assets/Logo.jpg";
 import "./About.css";
-
-const Navbar = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
-    <div className="container-fluid">
-      <a
-        className="navbar-brand d-flex align-items-center fw-bold brand-text"
-        href="#"
-      >
-        <img src={Logo} alt="Pyramind Logo" className="Logo me-2" />
-        PYRAMIND
-      </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div
-        className="collapse navbar-collapse justify-content-end"
-        id="navbarNav"
-      >
-        <ul className="navbar-nav gap-4">
-          {}
-          <li className="nav-item">
-            <a className="nav-link" href="#description">
-              About
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#features">
-              Games
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#community">
-              Community
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#contact">
-              Contact
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#login">
-              Login
-            </a>
-          </li>
-        </ul>
-        <button className="btn sign-up-btn ms-4 px-4 py-2 fw-bold">
-          Sign Up
-        </button>
-      </div>
-    </div>
-  </nav>
-);
-
-const Footer = () => (
-  <footer className="footer text-center py-3 text-light mt-5">
-    <p>&copy; {new Date().getFullYear()} PyraMind. All rights reserved.</p>
-  </footer>
-);
 
 const About = () => {
   return (
     <main className="home-page text-light">
       <Navbar />
-      {}
+
       <div className="container">
         {/* Landing Section */}
         <div className="landing-container">
@@ -103,7 +41,7 @@ const About = () => {
           <h3 className="about-section-title">VISION</h3>
           <p>
             Our goal is to create a game that’s not only fun but also
-            intellectually stimulating a game that helps players improve their
+            intellectually stimulating — a game that helps players improve their
             logical thinking, strategy planning, and cognitive skills while
             enjoying every moment.
           </p>
@@ -121,6 +59,7 @@ const About = () => {
                 problem-solving abilities.
               </p>
             </div>
+
             <div className="card pink" key="challenges-card">
               <FaBolt size={28} color="white" />
               <h4>Time-based Challenges</h4>
@@ -129,6 +68,7 @@ const About = () => {
                 highest score.
               </p>
             </div>
+
             <div className="card cyan" key="community-card">
               <FaUsers size={28} color="white" />
               <h4>Community Play</h4>
@@ -152,6 +92,7 @@ const About = () => {
                 smooth gaming experience.
               </p>
             </div>
+
             <div className="card pink" key="backend-card">
               <FaServer size={28} color="white" />
               <h4>BACK-END</h4>
@@ -168,8 +109,8 @@ const About = () => {
           <h3 className="about-section-title">TARGET AUDIENCE</h3>
           <p>
             PyraMind is designed for puzzle lovers, gamers looking for mental
-            challenges, and anyone who enjoys problem-solving games from casual
-            players to dedicated strategists.
+            challenges, and anyone who enjoys problem-solving games — from
+            casual players to dedicated strategists.
           </p>
         </section>
 
