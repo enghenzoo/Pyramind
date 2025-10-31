@@ -1,0 +1,76 @@
+.navbar {
+    background-color: rgba(20, 0, 50, 0.6) !important;
+    border-bottom: 1px solid var(--Deep-Pink);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--Cyan) !important;
+    text-shadow: 0 0 10px var(--Cyan);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.nav-link {
+    color: var(--Cyan) ;
+    text-shadow: 0 0 10px var(--Cyan);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    color: var(--White) !important;
+    text-shadow:
+        0 0 8px var(--Deep-Pink),
+        0 0 16px var(--Deep-Pink),
+        0 0 24px var(--Deep-Pink),
+        0 0 32px var(--Deep-Pink);
+}
+
+.navbar-brand img {
+    vertical-align: middle;
+}
+
+.Logo {
+    width: 50px;
+    height: auto;
+}
+
+.Logo:hover {
+    transform: scale(1.1);
+}
+
+.brand-text {
+    font-size: 1.5rem;
+    color: var(--Cyan);
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+
+.btn-outline-pink {
+    border: 2px solid var(--Deep-Pink);
+    color: var(--Deep-Pink);
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-outline-pink:hover {
+    background: var(--Deep-Pink);
+    color: var(--White);
+    box-shadow: 0 0 20px var(--Deep-Pink);
+}
+
+.sign-up-btn {
+    display: inline-block;
+    border: 2px solid var(--Deep-Pink);
+    border-radius: 12px;
+    color: var(--Deep-Pink);
+    background-color: transparent;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.sign-up-btn:hover {
+    background-color: var(--Deep-Pink);
+    color: var(--White);
+    box-shadow: 0 0 10px var(--Deep-Pink);
+}
