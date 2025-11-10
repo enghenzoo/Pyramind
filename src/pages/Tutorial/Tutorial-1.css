@@ -55,7 +55,3 @@
     background-color: var(--Deep-Pink);
 }
 
-.tutorial-controls button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}

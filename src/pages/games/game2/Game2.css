@@ -1,0 +1,41 @@
+.viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-image: url('../../../assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  
+}
+
+.game2-container {
+  width: 4000px;
+  height: 100vh;
+  position: relative;
+  transition: transform 0.1s linear;
+}
+
+.pyramid {
+  position: absolute;
+  top: 200px;
+  width: 500px;
+  height: 450px;
+  display: none;
+}
+
+.pyramid.visible {
+  display: block;
+}
+
+.game-ui {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 20;
+}

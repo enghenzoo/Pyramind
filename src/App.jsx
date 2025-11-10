@@ -6,8 +6,9 @@ import About from "./pages/about/About";
 import Contact from "./pages/contact/Contact";
 import Games from "./pages/games/Games";
 import Home from "./pages/home/Home";
-import Tutorial from "./pages/Tutorial/Tutorial-1";
-import GameOne from "./pages/games/game1/game";
+import TutorialOne from "./pages/Tutorial/Tutorial-1";
+import GameOne from "./pages/games/game1/Game1";
+import GameTwo from "./pages/games/game2/Game2";
 function App() {
   return (
     <>
@@ -20,8 +21,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/games" element={<Games />} />
           <Route path="/" element={<Home />} />
-          <Route path="tutorial" element={<Tutorial />} />
+          <Route path="tutorial1" element={<TutorialOne />} />
           <Route path="game1" element={<GameOne />} />
+          <Route path="game2" element={<GameTwo />} />
         </Routes>
       </BrowserRouter>
     </>

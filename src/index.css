@@ -4,7 +4,7 @@
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,4 +24,17 @@
   --dark: var(--Very-Dark-Blue);
   --white: var(--White);
   --muted: var(--Dark-Gray);
+
+  --gold: gold;
+  --gold-dark: #ffb400;
+  --gold-light: #ffcc33;
+  --gold-soft: #ffcc66;
+  --amber: #e0a300;
+  --brown-dark: #2a1a00;
+  --brown-medium: #5b3b00;
+  --brown-text: #1a0e00;
+  --light-gold-text: #ffe9a6;
+  --hint-color: #ffecb3;
+  --border-gold: goldenrod;
+  --text-bright: #ffd86b;
 }

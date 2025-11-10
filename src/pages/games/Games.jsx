@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaTrophy, FaCode, FaBolt } from "react-icons/fa";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
@@ -7,7 +8,7 @@ import game1Img from "../../assets/game1.png";
 import game2Img from "../../assets/game2.png";
 
 /* Game card component */
-const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60 }) => {
+const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60, gameid }) => {
   return (
     <div className="pm-games-card" role="article" aria-label={title}>
       <div
@@ -39,7 +40,8 @@ const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60 }) =
         </div>
 
         <div className="pm-games-card-actions">
-          <button className="pm-games-play-btn">Play</button>
+          <Link className="pm-games-play-btn" to={`/game${gameid}`} >Play</Link>
+          <Link className="pm-games-play-btn" to={`/tutorial${gameid}`} >Tutorial</Link>
         </div>
       </div>
     </div>
@@ -131,6 +133,7 @@ export default function Games() {
                 img={game1Img}
                 difficultyDots={1}
                 progress={45}
+                gameid={1}
               />
               <GameCard
                 title="LEVEL 2: CURSE OF THE PHARAOH"
@@ -138,6 +141,7 @@ export default function Games() {
                 img={game2Img}
                 difficultyDots={3}
                 progress={20}
+                gameid={2}
               />
             </div>
           </section>

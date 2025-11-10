@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Game.css";
+import "./Game1.css";
 import Navbar from "../../../Components/Navbar";
 import Footer from "../../../Components/Footer";
 import cheerSound from "../../../assets/sound-cheer.wav";

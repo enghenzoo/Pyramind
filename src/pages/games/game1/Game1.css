@@ -265,7 +265,7 @@
     color: var(--White);
     font-family: "Poppins", sans-serif;
     text-align: center;
-    background: var(--Very-Dark-Blue) url("../assets/bomb-bg.png") center/cover no-repeat;
+    background: var(--Very-Dark-Blue) url("../../../assets/bomb-bg.png") center/cover no-repeat;
 }
 
 .choose-language h2 {

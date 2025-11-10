@@ -2,7 +2,7 @@
 .pm-games-hero {
   padding: 48px 20px;
   text-align: center;
-  overflow-x: hidden;   
+  overflow-x: hidden;
 }
 
 .pm-games-hero-inner {
@@ -343,6 +343,8 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.25s;
+  text-decoration: none;
+  margin: 8px;
 }
 
 .pm-games-play-btn:hover {

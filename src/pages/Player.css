@@ -1,0 +1,7 @@
+.player {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    z-index: 10;
+    transition: left 0.1s linear, bottom 0.1s linear;
+}
