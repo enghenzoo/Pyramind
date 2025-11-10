@@ -10,6 +10,7 @@ import {
   FaBolt,
 } from "react-icons/fa";
 import "./About.css";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -116,9 +117,9 @@ const About = () => {
 
         {/* Call To Action (CTA) */}
         <div className="buttons">
-          <button className="btn cyan" type="button">
+          <Link className="btn cyan" to="/games">
             START YOUR JOURNEY
-          </button>
+          </Link>
         </div>
       </div>
 

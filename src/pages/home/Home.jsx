@@ -11,8 +11,8 @@ import {
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 
-
 import "./Home.css";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -32,16 +32,16 @@ export default function Home() {
         </p>
 
         <div className="mt-5 d-flex gap-4">
-          <button className="btn enter-btn px-4 py-2 fw-bold">
+          <Link className="btn enter-btn px-4 py-2 fw-bold" to="/games">
             <FaPlay className="me-2" /> ENTER THE GRID
-          </button>
+          </Link>
 
-          <a
-            href="#features"
+          <Link
+            to="/about"
             className="btn learn-btn px-4 py-2 fw-bold d-flex align-items-center"
           >
             <FaInfoCircle className="me-2" /> LEARN MORE
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -114,7 +114,7 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="cta" className="final-cta py-5 text-center">
+      {/* <section id="cta" className="final-cta py-5 text-center">
         <h2 className="section-title mb-4">
           Are you ready to hack the PyraMind?
         </h2>
@@ -123,7 +123,7 @@ export default function Home() {
             <FaPlay className="me-2" /> ENTER THE GRID
           </button>
         </div>
-      </section>
+      </section> */}
 
       <Footer />
     </div>

@@ -115,9 +115,9 @@ export default function Games() {
             <p className="pm-games-hero-sub">
               Play interactive problem solving games that teach real skills.
             </p>
-            <div className="pm-games-hero-actions">
+            {/* <div className="pm-games-hero-actions">
               <button className="pm-games-cta">Start Playing</button>
-            </div>
+            </div> */}
           </div>
         </section>
 
