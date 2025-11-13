@@ -93,7 +93,7 @@ export default function GameOne() {
       return () => clearTimeout(timer);
     } else {
       setIsCorrect(false);
-      setLog("Time's up 💣");
+      setLog("Time's up");
       setIsExploding(true);
       bombAudio.play();
     }
