@@ -6,7 +6,7 @@ import "./Game2.css";
 import pyramidImg from "../../../assets/pyramid.png";
 
 function GameTwo() {
-  const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });
+  const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 140 });
   const [isWalking, setIsWalking] = useState(false);
   const [solvedCount, setSolvedCount] = useState(0);
   const [solvedObstacles, setSolvedObstacles] = useState([]);
@@ -24,11 +24,11 @@ function GameTwo() {
   const obstacles = Array.from({ length: totalObstacles }, (_, i) => ({
     id: i,
     x: 300 + i * 600,
-    y: 50,
+    y: 140,
     width: 80,
   }));
 
-  const pyramid = { x: worldWidth - 600, y: 50, width: 200 };
+  const pyramid = { x: worldWidth - 600, y: 140, width: 200 };
 
   const challenges = [
     {
