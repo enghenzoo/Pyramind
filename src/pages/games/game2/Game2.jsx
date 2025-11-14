@@ -4,6 +4,7 @@ import Obstacle from "../../Obstacle";
 import ChallengeModal from "../../ChallengeModal";
 import "./Game2.css";
 import pyramidImg from "../../../assets/pyramid.png";
+import { useNavigate } from "react-router-dom";
 
 function GameTwo() {
   const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 140 });
@@ -16,103 +17,113 @@ function GameTwo() {
   const [finalSolved, setFinalSolved] = useState(false);
   const [isFrozen, setIsFrozen] = useState(false);
 
-  const totalObstacles = 5;
+  const navigate = useNavigate();
+  const totalObstacles = 0;
   const playerWidth = 100;
-  const worldWidth = 4000;
+  const worldWidth = 2000;
   const viewWidth = window.innerWidth;
 
   const obstacles = Array.from({ length: totalObstacles }, (_, i) => ({
     id: i,
-    x: 300 + i * 600,
+    x: 300 + i * 350,
     y: 140,
     width: 80,
   }));
 
-  const pyramid = { x: worldWidth - 600, y: 140, width: 200 };
+  const pyramid = { x: worldWidth - 600, y: 70, width: 200 };
 
+  // قائمة التحديات المحدثة مع تفاصيل الاختبار والـ Placeholder
   const challenges = [
     {
       id: 0,
-      question: "Return factorial recursively",
-      hint: "Use recursion: function calls itself until n=1.",
+      question:
+        "Q1: Given two numbers A, B and a comparison symbol S. Determine if A S B is Right or Wrong.",
+      hint: "Implement logic to check if (A > B), (A < B), or (A = B) is true.",
+      testCase: { input: "5 > 4", expected: "Right" },
+      placeholderExample: `Example:\nInput: 5 > 4\nOutput: Right`,
     },
     {
       id: 1,
-      question: "Check if two strings are anagrams",
-      hint: "Sort both strings and compare them.",
+      question:
+        "Q2: Given X, determine the interval: [0,25], (25,50], (50,75], (75,100].",
+      hint: "Use nested if/else statements and carefully check boundary conditions (e.g., > 25, <= 50).",
+      testCase: { input: "25.1", expected: "Interval (25,50]" },
+      placeholderExample: `Example:\nInput: 25.1\nOutput: Interval (25,50]`,
     },
     {
       id: 2,
-      question: "Find the nth Fibonacci number (recursive)",
-      hint: "F(n) = F(n-1) + F(n-2)",
+      question: "Q3: Convert letter case (Upper to Lower or Lower to Upper).",
+      hint: "Check if the character is lowercase/uppercase, then use ASCII value +/- 32 to convert.",
+      testCase: { input: "a", expected: "A" },
+      placeholderExample: `Example:\nInput: a\nOutput: A`,
     },
     {
       id: 3,
-      question: "Return the second largest number in an array",
-      hint: "Sort descending and take index 1.",
+      question: "Q4: Check if X is Digit or Alphabet (Capital/Small).",
+      hint: "Use ASCII ranges to check. Output must be multiline.",
+      testCase: { input: "A", expected: "ALPHA\nIS CAPITAL" },
+      placeholderExample: `Example:\nInput: A\nOutput: ALPHA\n        IS CAPITAL`,
     },
-    {
-      id: 4,
-      question: "Check if a number is prime",
-      hint: "Try dividing by all numbers up to √n.",
-    },
+    // {
+    //   id: 4,
+    //   question: "Q5: Given two people's full names, determine if they are Brothers (share the same second name).",
+    //   hint: "Read the four names (F1, S1, F2, S2) and compare S1 with S2.",
+    //   testCase: { input: "bassam ramadan\nahmed ramadan", expected: "ARE Brothers" },
+    //   placeholderExample: `Example:\nInput:\nbassam ramadan\\nahmed ramadan\nOutput: ARE Brothers`
+    // },
   ];
 
   const finalChallenge = {
     id: 999,
-    question: "Final Challenge: Reverse a string without using .reverse()",
-    hint: "Loop backward through the string and build the result manually.",
+    question: "Final Challenge: Reverse a string without reverse()",
+    hint: "Loop backward and build result.",
+    testCase: { input: "Hello World", expected: "dlroW olleH" },
+    placeholderExample: `Example:\nInput: Hello\nOutput: olleH`,
   };
 
-  // 🎮 حركة اللاعب (متتجمد لو في تحدي مفتوح)
+  // حركة اللاعب
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (isFrozen) return; // 🚫 يمنع الحركة أثناء التحدي
+      if (isFrozen) return;
 
       const speed = 10;
       let newX = playerPosition.x;
-      if (e.key === "ArrowLeft") {
-        newX = Math.max(0, playerPosition.x - speed);
-        setIsWalking(true);
-      }
-      if (e.key === "ArrowRight") {
+      if (e.key === "ArrowLeft") newX = Math.max(0, playerPosition.x - speed);
+      if (e.key === "ArrowRight")
         newX = Math.min(worldWidth - playerWidth, playerPosition.x + speed);
-        setIsWalking(true);
-      }
       setPlayerPosition((pos) => ({ ...pos, x: newX }));
+      setIsWalking(true);
     };
 
-    const handleKeyUp = (e) => {
-      if (e.key === "ArrowLeft" || e.key === "ArrowRight") setIsWalking(false);
-    };
+    const stopWalk = () => setIsWalking(false);
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener("keyup", stopWalk);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener("keyup", stopWalk);
     };
   }, [playerPosition, isFrozen]);
 
-  // ⏱️ عداد الوقت
+  // عداد الوقت
   useEffect(() => {
     if (!currentChallenge) return;
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
+    const timer = setInterval(
+      () => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)),
+      1000
+    );
     return () => clearInterval(timer);
   }, [currentChallenge]);
 
   useEffect(() => {
     if (timeLeft === 0 && currentChallenge) {
-      setCurrentChallenge(null);
-      setIsFrozen(false);
-      setTimeLeft(300);
+      alert("⏳ Time is up! Game Over!");
+      window.location.reload();
     }
   }, [timeLeft, currentChallenge]);
 
+  // اكتشاف الاصطدام
   useEffect(() => {
     if (currentChallenge || isFrozen) return;
 
@@ -122,14 +133,17 @@ function GameTwo() {
     for (let obs of obstacles) {
       const obsLeft = obs.x;
       const obsRight = obs.x + obs.width;
-
       const touching = playerRight > obsLeft - 20 && playerLeft < obsRight + 20;
 
       if (touching && !solvedObstacles.includes(obs.id)) {
-        setCurrentChallenge(challenges[obs.id]);
-        setAttemptsLeft(3);
-        setTimeLeft(300);
-        setIsFrozen(true);
+        const challengeToUse =
+          challenges.find((c) => c.id === obs.id) || challenges[obs.id];
+        if (challengeToUse) {
+          setCurrentChallenge(challengeToUse);
+          setAttemptsLeft(3);
+          setTimeLeft(300);
+          setIsFrozen(true);
+        }
         return;
       }
     }
@@ -146,7 +160,7 @@ function GameTwo() {
       setCurrentChallenge(finalChallenge);
       setIsFrozen(true);
     }
-  }, [playerPosition, solvedCount, currentChallenge, finalSolved, isFrozen]);
+  }, [playerPosition, solvedCount]);
 
   const cameraX = Math.min(
     Math.max(playerPosition.x - viewWidth / 2 + playerWidth / 2, 0),
@@ -184,33 +198,25 @@ function GameTwo() {
           timeLeft={timeLeft}
           attemptsLeft={attemptsLeft}
           setAttemptsLeft={setAttemptsLeft}
-          onClose={() => {
-            setCurrentChallenge(null);
-            setIsFrozen(false);
-          }}
+          onClose={() => setIsFrozen(false)}
           onSolved={() => {
             if (currentChallenge.id === 999) {
-              setFinalSolved(true);
-              alert("🎉 Congratulations! You completed the final challenge!");
-            } else {
-              setSolvedObstacles([...solvedObstacles, currentChallenge.id]);
-              setSolvedCount(solvedCount + 1);
+              alert("🎉 Congratulations! You completed ALL challenges!");
+              navigate("/games");
             }
+            setCurrentChallenge(null);
+            console.log("DONE CHALLENGE ID:", currentChallenge.id);
+            setSolvedObstacles([...solvedObstacles, currentChallenge.id]);
+            setSolvedCount(solvedCount + 1);
             setAttemptsLeft(3);
             setTimeLeft(300);
-            setCurrentChallenge(null);
             setIsFrozen(false);
           }}
           onWrongAnswer={() => {
             if (attemptsLeft - 1 <= 0) {
-              setAttemptsLeft(3);
-              setTimeLeft(300);
-              setPlayerPosition({ x: 50, y: 50 });
-              setCurrentChallenge(null);
-              setIsFrozen(false);
-            } else {
-              setAttemptsLeft(attemptsLeft - 1);
-            }
+              alert("💀 Game Over!");
+              window.location.reload();
+            } else setAttemptsLeft(attemptsLeft - 1);
           }}
         />
       )}
