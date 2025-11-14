@@ -88,11 +88,21 @@ function GameTwo() {
 
       const speed = 10;
       let newX = playerPosition.x;
-      if (e.key === "ArrowLeft") newX = Math.max(0, playerPosition.x - speed);
-      if (e.key === "ArrowRight")
+      let moved = false;
+
+      if (e.key === "ArrowLeft") {
+        newX = Math.max(0, playerPosition.x - speed);
+        moved = true;
+      }
+      if (e.key === "ArrowRight") {
         newX = Math.min(worldWidth - playerWidth, playerPosition.x + speed);
-      setPlayerPosition((pos) => ({ ...pos, x: newX }));
-      setIsWalking(true);
+        moved = true;
+      }
+
+      if (moved) {
+        setPlayerPosition((pos) => ({ ...pos, x: newX }));
+        setIsWalking(true);
+      }
     };
 
     const stopWalk = () => setIsWalking(false);
