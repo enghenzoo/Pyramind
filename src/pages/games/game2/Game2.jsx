@@ -4,7 +4,7 @@ import Obstacle from "../../Obstacle";
 import ChallengeModal from "../../ChallengeModal";
 import "./Game2.css";
 import pyramidImg from "../../../assets/pyramid.png";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function GameTwo() {
   const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 140 });
@@ -18,7 +18,7 @@ function GameTwo() {
   const [isFrozen, setIsFrozen] = useState(false);
 
   const navigate = useNavigate();
-  const totalObstacles = 0;
+  const totalObstacles = 4;
   const playerWidth = 100;
   const worldWidth = 2000;
   const viewWidth = window.innerWidth;
@@ -119,7 +119,7 @@ function GameTwo() {
   useEffect(() => {
     if (timeLeft === 0 && currentChallenge) {
       alert("⏳ Time is up! Game Over!");
-      window.location.reload();
+      Navigate("/games");
     }
   }, [timeLeft, currentChallenge]);
 
