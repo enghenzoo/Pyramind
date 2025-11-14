@@ -116,14 +116,14 @@ const About = () => {
         </section>
 
         {/* Call To Action (CTA) */}
-        <div className="buttons">
+        <div className="about-button">
           <Link className="btn cyan" to="/games">
             START YOUR JOURNEY
           </Link>
         </div>
       </div>
 
-      <Footer /> 
+      <Footer />
     </main>
   );
 };

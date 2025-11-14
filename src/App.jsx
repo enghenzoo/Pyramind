@@ -15,14 +15,11 @@ function RouteChecker() {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const protectedPaths = [
-    "/tutorial1",
-    "/game1",
-    "/game2",
-    "/games"
-  ];
+  const protectedPaths = ["/tutorial1", "/game1", "/game2"];
 
-  const isProtectedPath = protectedPaths.some(path => currentPath.startsWith(path));
+  const isProtectedPath = protectedPaths.some((path) =>
+    currentPath.startsWith(path)
+  );
 
   if (isProtectedPath) {
     return (

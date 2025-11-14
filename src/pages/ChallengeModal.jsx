@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { FaHourglassHalf, FaHeart } from "react-icons/fa";
-// تم تحديث اسم ملف CSS
 import "./ChallengeModal.css"; 
 
 function QuestionHeader({ challenge }) {
-  // تم تحديث الكلاس لـ gametwo-question-header
   return <h2 className="gametwo-question-header">{challenge.question}</h2>;
 }
 
@@ -88,34 +86,25 @@ function ChallengeModal({
   };
 
   return (
-    // تم تحديث الكلاس لـ gametwo-challenge-overlay
     <div className="gametwo-challenge-overlay"> 
-      {/* تم تحديث الكلاس لـ gametwo-challenge-modal */}
       <div className="gametwo-challenge-modal"> 
         <QuestionHeader challenge={challenge} />
 
         <textarea
-          // تم تحديث الكلاس لـ gametwo-textarea
           className="gametwo-textarea" 
           placeholder="Write your code here..."
           value={userAnswer}
           onChange={(e) => setUserAnswer(e.target.value)}
         />
 
-        {/* تم تحديث الكلاس لـ gametwo-modal-controls */}
         <div className="gametwo-modal-controls"> 
-          {/* تم تحديث الكلاس لـ gametwo-submit-btn */}
           <button className="gametwo-submit-btn" onClick={handleSubmit}>Submit</button> 
-          {/* تم تحديث الكلاس لـ gametwo-hint-btn */}
           <button className="gametwo-hint-btn" onClick={() => setHintVisible(!hintVisible)}>Hint</button> 
         </div>
 
-        {/* تم تحديث الكلاس لـ gametwo-hint */}
         {hintVisible && <p className="gametwo-hint">{challenge.hint}</p>} 
-        {/* تم تحديث الكلاس لـ gametwo-error */}
         {errorMessage && <p className="gametwo-error">{errorMessage}</p>} 
 
-        {/* تم تحديث الكلاس لـ gametwo-timer */}
         <div className="gametwo-timer"> 
           <FaHourglassHalf size={20} color="var(--light-gold-text)" /> {timeLeft}s |{" "}
           {Array.from({ length: attemptsLeft }).map((_, i) => (
