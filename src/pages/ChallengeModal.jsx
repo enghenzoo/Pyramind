@@ -3,11 +3,12 @@ import { FaHourglassHalf, FaHeart } from "react-icons/fa";
 import axios from "axios";
 import "./ChallengeModal.css";
 
-// ⚠️ 1. إعداد ثابتات Gemini API (لـ Vite)
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+// ⚠️ تم حذف مفتاح API من الواجهة الأمامية تمامًا.
+// يتم إرسال جميع الطلبات إلى دالة الخادم الوسيط (Proxy) الخاصة بك على Vercel.
+const JUDGE_ENDPOINT = '/api/judge'; 
 
-// قائمة اللغات الموسعة
+
+// قائمة اللغات الموسعة (للاختيار فقط)
 const LANGUAGES = [
   { id: 71, name: "Python 3" },
   { id: 63, name: "JavaScript (Node.js)" },
@@ -36,13 +37,13 @@ function ChallengeModal({
   const handleHint = () => {
     setHintVisible(!hintVisible);
   };
-
+  
   // 🟢 دالة بناء الموجّه (The AI Prompt)
   const buildJudgePrompt = (code, langName, details) => {
-    const testInput = details.testCase?.input || "";
-    const expectedOutput = details.testCase?.expected || "";
-
-    return `
+      const testInput = details.testCase?.input || "";
+      const expectedOutput = details.testCase?.expected || "";
+      
+      return `
 You are an automated coding judge. Your task is to mentally execute or rigorously simulate the provided code based on the given test case and determine whether the final output exactly matches the expected output.
 
 ### Challenge
@@ -67,96 +68,86 @@ ${expectedOutput}
 \`\`\`
 
 ### JUDGING RULES
-1. **Language Mismatch is an Automatic FAIL:** The code must be written in the language specified in the ### Language tag (e.g., if the tag says "Python 3," the code MUST be valid Python 3). If the submitted code is in a different language (e.g., C++), the verdict is **FAIL** immediately, even if it could execute successfully in another environment.
+1. **Language Mismatch is an Automatic FAIL:** The code must be written in the language specified in the ### Language tag.
 2. Simulate or execute the code exactly as the specified language behaves.
 3. Preserve all whitespace, spacing, and newlines in both the output and expected output.
-4. If the code would result in:
-  - syntax/compilation error (in the specified language)
-  - runtime error (in the specified language)
-  - infinite loop
-  - incorrect output
-  then the verdict is **FAIL**.
+4. If the code would result in any error or incorrect output, the verdict is **FAIL**.
 5. Comparison must be **exact character-by-character**.
 
 ### Final Response
 Respond with only ONE word:
 - PASS — if the output matches exactly.
 - FAIL — otherwise.
-  `.trim();
+      `.trim();
   };
 
-  // 🟢 دالة الإرسال والتحقق عبر Gemini مع دعم إعادة المحاولة
+  // 🟢 دالة الإرسال والتحقق عبر الخادم الوسيط
   const submit = async (retryCount = 0) => {
     const MAX_RETRIES = 3;
-
-    if (!userAnswer.trim() || !GEMINI_API_KEY) {
-      setSubmissionStatus(
-        "Please write code and ensure VITE_GEMINI_API_KEY is properly set."
-      );
-      return;
+    
+    if (!userAnswer.trim()) {
+        setSubmissionStatus("Please write code.");
+        return;
     }
-
+    
+    // ⚠️ لا يوجد تحقق من المفتاح هنا، لأن المفتاح مخزن على الخادم
+    
     if (retryCount === 0) {
       setIsLoading(true);
       setSubmissionStatus(null);
     }
-
+    
     const promptDetails = challenge;
-    const selectedLangName =
-      LANGUAGES.find((l) => l.id == selectedLanguage)?.name || "Python 3";
-    const prompt = buildJudgePrompt(
-      userAnswer,
-      selectedLangName,
-      promptDetails
-    );
-
+    const selectedLangName = LANGUAGES.find(l => l.id == selectedLanguage)?.name || "Python 3";
+    
+    // بناء الـ prompt لإرساله إلى الخادم
+    const prompt = buildJudgePrompt(userAnswer, selectedLangName, promptDetails);
+    
     try {
-      const response = await axios.post(GEMINI_MODEL_URL, {
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: {
-          temperature: 0.1,
-        },
-      });
+        // 1. الاتصال بدالة الخادم الوسيط (Proxy)
+        const response = await axios.post(JUDGE_ENDPOINT, {
+            // نرسل الـ prompt فقط، والخادم يضيف المفتاح وإعدادات Gemini
+            prompt: prompt, 
+        });
 
-      const judgeResponseText =
-        response.data.candidates?.[0]?.content?.parts?.[0]?.text
-          ?.trim()
-          .toUpperCase();
-
-      if (judgeResponseText === "PASS") {
-        setSubmissionStatus("Correct!");
-        console.log("Judge Response:", judgeResponseText);
-        onSolved();
-      } else {
-        setSubmissionStatus(`Wrong Answer`);
-        console.log("Judge Response:", judgeResponseText);
-        onWrongAnswer();
-      }
+        // 2. قراءة النتيجة من رد الخادم الوسيط (يفترض أن الخادم يرجع { verdict: "PASS" })
+        const judgeResponseText = response.data.verdict; 
+        
+        if (judgeResponseText === "PASS") {
+            setSubmissionStatus("Correct! ✅");
+            onSolved();
+        } else {
+            setSubmissionStatus(`Wrong Answer ❌`);
+            onWrongAnswer();
+        }
+        
     } catch (error) {
-      if (error.response?.status === 503 && retryCount < MAX_RETRIES) {
-        const waitTime = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
-        console.log(
-          `Model overloaded, retrying in ${waitTime / 1000}s... (Attempt ${
-            retryCount + 1
-          }/${MAX_RETRIES})`
-        );
+        
+        // 🚨 معالجة أخطاء 5xx العامة للخادم الوسيط
+        if (error.response?.status >= 500 && retryCount < MAX_RETRIES) {
+            const waitTime = Math.pow(2, retryCount) * 1000;
+            setSubmissionStatus(`Server issue, retrying in ${waitTime / 1000}s...`);
+            
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+            return submit(retryCount + 1);
+        }
 
-        await new Promise((resolve) => setTimeout(resolve, waitTime));
-        return submit(retryCount + 1);
-      }
-
-      console.error("Gemini API Submission failed:", error);
-      const errorMessage =
-        error.response?.data?.error?.message || error.message;
-      setSubmissionStatus(`API Error! ${errorMessage.substring(0, 50)}...`);
-      onWrongAnswer();
+        // 4. معالجة الأخطاء الأخرى
+        console.error("Submission failed:", error);
+        const errorMessage = error.response?.data?.error || error.message;
+        setSubmissionStatus(`API Error! ${errorMessage.substring(0, 50)}...`);
+        onWrongAnswer();
+        
     } finally {
       setIsLoading(false);
     }
   };
 
+  // 🟢 بناء نص الـ Placeholder
   const defaultPlaceholder =
-    challenge.placeholderExample || `No example provided. Solve the logic.`;
+    `Write your code here (e.g., using print() or console.log())...\n` +
+    `\n---\n` +
+    (challenge.placeholderExample || `No example provided. Solve the logic.`);
 
   return (
     <div className="gametwo-challenge-overlay">
