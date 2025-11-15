@@ -1,6 +1,6 @@
 import React from "react";
 import "./Player.css";
-import pharaohIdle from "../assets/pharaoh.png";
+import pharaohIdle from "../assets/pharaoh.webp";
 import pharaohWalking from "../assets/ezgif.com-animated-gif-maker.gif";
 
 function Player({ position, isWalking }) {

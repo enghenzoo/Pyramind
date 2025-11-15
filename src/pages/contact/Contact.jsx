@@ -2,7 +2,7 @@ import React from "react";
 import { FaPhone, FaEnvelope } from "react-icons/fa";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
-import bgImage from "../../assets/pyramind-bg.png";
+import bgImage from "../../assets/pyramind-bg.webp";
 import "./Contact.css";
 
 function Contact() {

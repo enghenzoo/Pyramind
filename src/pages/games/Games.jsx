@@ -4,11 +4,18 @@ import { FaTrophy, FaCode, FaBolt } from "react-icons/fa";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import "./Games.css";
-import game1Img from "../../assets/game1.png";
-import game2Img from "../../assets/game2.png";
+import game1Img from "../../assets/game1.webp";
+import game2Img from "../../assets/game2.webp";
 
 /* Game card component */
-const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60, gameid }) => {
+const GameCard = ({
+  title,
+  subtitle,
+  img,
+  difficultyDots = 2,
+  progress = 60,
+  gameid,
+}) => {
   return (
     <div className="pm-games-card" role="article" aria-label={title}>
       <div
@@ -26,7 +33,9 @@ const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60, gam
             {Array.from({ length: 3 }).map((_, i) => (
               <span
                 key={i}
-                className={"pm-games-dot " + (i < difficultyDots ? "active" : "")}
+                className={
+                  "pm-games-dot " + (i < difficultyDots ? "active" : "")
+                }
               />
             ))}
           </div>
@@ -35,13 +44,20 @@ const GameCard = ({ title, subtitle, img, difficultyDots = 2, progress = 60, gam
         <div className="pm-games-progress-row">
           <div className="pm-games-label">PROGRESS</div>
           <div className="pm-games-progress">
-            <div className="pm-games-progress-bar" style={{ width: `${progress}%` }} />
+            <div
+              className="pm-games-progress-bar"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
 
         <div className="pm-games-card-actions">
-          <Link className="pm-games-play-btn" to={`/game${gameid}`} >Play</Link>
-          <Link className="pm-games-play-btn" to={`/tutorial${gameid}`} >Tutorial</Link>
+          <Link className="pm-games-play-btn" to={`/game${gameid}`}>
+            Play
+          </Link>
+          <Link className="pm-games-play-btn" to={`/tutorial${gameid}`}>
+            Tutorial
+          </Link>
         </div>
       </div>
     </div>
@@ -56,7 +72,9 @@ const Sidebar = () => (
         <div className="pm-games-avatar">S</div>
         <div>
           <div className="pm-games-name">SYNTHIA</div>
-          <div className="pm-games-sub pm-games-muted">Level 12 Codebreaker</div>
+          <div className="pm-games-sub pm-games-muted">
+            Level 12 Codebreaker
+          </div>
         </div>
       </div>
       <div className="pm-games-profile-stats">
@@ -74,9 +92,15 @@ const Sidebar = () => (
     <div className="pm-games-achievements pm-games-side-card">
       <h4>ACHIEVEMENTS</h4>
       <div className="pm-games-ach-grid">
-        <div className="pm-games-ach"><FaTrophy /></div>
-        <div className="pm-games-ach"><FaCode /></div>
-        <div className="pm-games-ach"><FaBolt /></div>
+        <div className="pm-games-ach">
+          <FaTrophy />
+        </div>
+        <div className="pm-games-ach">
+          <FaCode />
+        </div>
+        <div className="pm-games-ach">
+          <FaBolt />
+        </div>
       </div>
     </div>
 

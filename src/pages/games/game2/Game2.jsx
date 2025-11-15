@@ -3,7 +3,7 @@ import Player from "../../Player";
 import Obstacle from "../../Obstacle";
 import ChallengeModal from "../../ChallengeModal";
 import "./Game2.css";
-import pyramidImg from "../../../assets/pyramid.png";
+import pyramidImg from "../../../assets/pyramid.webp";
 import { Navigate, useNavigate } from "react-router-dom";
 
 function GameTwo() {
