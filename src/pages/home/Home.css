@@ -2,7 +2,7 @@
 .hero {
     position: relative;
     text-align: center;
-    background: url("../../assets/Back-Ground-img.jpg") center/cover no-repeat;
+    background: url("../../assets/Back-Ground-img.webp") center/cover no-repeat;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -261,3 +261,4 @@
         max-width: 90%;
     }
 }
+
