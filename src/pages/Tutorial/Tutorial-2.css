@@ -1,0 +1,56 @@
+.tutorial-page {
+    width: 100vw;
+    height: 200%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--Very-Dark-Blue);
+}
+
+.tutorial-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}
+
+.tutorial-image-container {
+    position: relative;
+    max-width: 90%;
+    max-height: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.tutorial-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+}
+
+.tutorial-controls {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.tutorial-controls button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: var(--Deep-Pink);
+    color: var(--White);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.tutorial-controls button:hover {
+    transform: scale(1.05);
+    background-color: var(--Deep-Pink);
+}
