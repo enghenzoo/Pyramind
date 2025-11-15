@@ -7,6 +7,7 @@ import Contact from "./pages/contact/Contact";
 import Games from "./pages/games/Games";
 import Home from "./pages/home/Home";
 import TutorialOne from "./pages/Tutorial/Tutorial-1";
+import TutorialTwo from "./pages/Tutorial/Tutorial-2";
 import GameOne from "./pages/games/game1/Game1";
 import GameTwo from "./pages/games/game2/Game2";
 import MobileWarning from "./Components/pc-needed";
@@ -33,6 +34,7 @@ function RouteChecker() {
           <Route path="/games" element={<Games />} />
           <Route path="/" element={<Home />} />
           <Route path="tutorial1" element={<TutorialOne />} />
+          <Route path="tutorial2" element={<TutorialTwo />} />
           <Route path="game1" element={<GameOne />} />
           <Route path="game2" element={<GameTwo />} />
         </Routes>
@@ -50,6 +52,7 @@ function RouteChecker() {
       <Route path="/games" element={<Games />} />
       <Route path="/" element={<Home />} />
       <Route path="tutorial1" element={<TutorialOne />} />
+      <Route path="tutorial2" element={<TutorialTwo />} />
       <Route path="game1" element={<GameOne />} />
       <Route path="game2" element={<GameTwo />} />
     </Routes>
