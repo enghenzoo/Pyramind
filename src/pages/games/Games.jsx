@@ -152,16 +152,16 @@ export default function Games() {
           <section className="pm-games-left-col">
             <div className="pm-games-levels-grid" id="games">
               <GameCard
-                title="Game 1: CODE RED"
-                subtitle="A high-stakes coding thriller where every bug is a ticking bomb."
+               title="Game 1: Bomb Challenge"
+                subtitle="Defuse the danger, Solve quick challenges before the timer runs out… or boom."
                 img={game1Img}
                 difficultyDots={1}
                 progress={45}
                 gameid={1}
               />
               <GameCard
-                title="LEVEL 2: CURSE OF THE PHARAOH"
-                subtitle="A fast-paced puzzle adventure where every chamber is a race against death."
+                title="Game 2: Pharaoh’s Journey"
+                subtitle="Guide the Pharaoh through ancient challenges to collect the five sacred stones and rebuild the great pyramid."
                 img={game2Img}
                 difficultyDots={3}
                 progress={20}
