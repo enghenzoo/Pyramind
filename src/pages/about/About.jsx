@@ -94,7 +94,6 @@ const About = () => {
               </p>
             </div>
 
-            
             {/* <div className="card pink" key="backend-card">
               <FaServer size={28} color="white" />
               <h4>BACK-END</h4>
@@ -102,8 +101,8 @@ const About = () => {
                 Powered by <strong>.NET</strong> to handle game logic, APIs, and
                 data securely and efficiently.
               </p>
-            </div>
-          </div> */}
+            </div> */}
+          </div>
         </section>
 
         {/* Target Audience */}

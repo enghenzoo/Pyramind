@@ -236,30 +236,15 @@
 
 // export default GameTwo;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Player from "../../Player";
 import Obstacle from "../../Obstacle";
 import ChallengeModal from "../../ChallengeModal";
-import Footer from "../../../Components/Footer";
 import "./Game2.css";
 import pyramidImg from "../../../assets/pyramid.png";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import backgroundMusic from "../../../assets/desert-storm-ii-114904.mp3"; 
+import backgroundMusic from "../../../assets/desert-storm-ii-114904.mp3";
 
 function GameTwo() {
   const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 140 });
@@ -275,7 +260,6 @@ function GameTwo() {
   const audioRef = useRef(null);
 
   useEffect(() => {
-  
     audioRef.current = new Audio(backgroundMusic);
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
@@ -287,7 +271,6 @@ function GameTwo() {
       });
     }
 
-
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -296,10 +279,9 @@ function GameTwo() {
     };
   }, []);
 
- 
   const totalObstacles = 4;
   const playerWidth = 100;
-  const worldWidth = 2000;
+  const worldWidth = 3000;
   const viewWidth = window.innerWidth;
 
   const obstacles = useMemo(
@@ -313,20 +295,25 @@ function GameTwo() {
     [totalObstacles]
   );
 
-  const pyramid = useMemo(() => ({ x: worldWidth - 600, y: 70, width: 200 }), [worldWidth]);
+  const pyramid = useMemo(
+    () => ({ x: worldWidth - 600, y: 120, width: 200 }),
+    [worldWidth]
+  );
 
   const challenges = useMemo(
     () => [
       {
         id: 0,
-        question: "Q1: Given two numbers A, B and a comparison symbol S. Determine if A S B is Right or Wrong.",
+        question:
+          "Q1: Given two numbers A, B and a comparison symbol S. Determine if A S B is Right or Wrong.",
         hint: "Implement logic to check if (A > B), (A < B), or (A = B) is true.",
         testCase: { input: "5 > 4", expected: "Right" },
         placeholderExample: `Example:\nInput: 5 > 4\nOutput: Right`,
       },
       {
         id: 1,
-        question: "Q2: Given X, determine the interval: [0,25], (25,50], (50,75], (75,100].",
+        question:
+          "Q2: Given X, determine the interval: [0,25], (25,50], (50,75], (75,100].",
         hint: "Use nested if/else statements and carefully check boundary conditions (e.g., > 25, <= 50).",
         testCase: { input: "25.1", expected: "Interval (25,50]" },
         placeholderExample: `Example:\nInput: 25.1\nOutput: Interval (25,50]`,
@@ -360,7 +347,6 @@ function GameTwo() {
     []
   );
 
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (isFrozen) return;
@@ -392,10 +378,12 @@ function GameTwo() {
     };
   }, [playerPosition, isFrozen]);
 
-  
   useEffect(() => {
     if (!currentChallenge) return;
-    const timer = setInterval(() => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)), 1000);
+    const timer = setInterval(
+      () => setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0)),
+      1000
+    );
     return () => clearInterval(timer);
   }, [currentChallenge]);
 
@@ -405,7 +393,6 @@ function GameTwo() {
       navigate("/games");
     }
   }, [timeLeft, currentChallenge, navigate]);
-
 
   useEffect(() => {
     if (currentChallenge || isFrozen) return;
@@ -428,8 +415,14 @@ function GameTwo() {
         return;
       }
     }
-  }, [playerPosition, solvedObstacles, currentChallenge, isFrozen, obstacles, challenges]);
-
+  }, [
+    playerPosition,
+    solvedObstacles,
+    currentChallenge,
+    isFrozen,
+    obstacles,
+    challenges,
+  ]);
 
   useEffect(() => {
     if (currentChallenge || finalSolved || isFrozen) return;
@@ -442,9 +435,20 @@ function GameTwo() {
       setCurrentChallenge(finalChallenge);
       setIsFrozen(true);
     }
-  }, [playerPosition, solvedCount, finalSolved, currentChallenge, isFrozen, pyramid.x, finalChallenge]);
+  }, [
+    playerPosition,
+    solvedCount,
+    finalSolved,
+    currentChallenge,
+    isFrozen,
+    pyramid.x,
+    finalChallenge,
+  ]);
 
-  const cameraX = Math.min(Math.max(playerPosition.x - viewWidth / 2 + playerWidth / 2, 0), worldWidth - viewWidth);
+  const cameraX = Math.min(
+    Math.max(playerPosition.x - viewWidth / 2 + playerWidth / 2, 0),
+    worldWidth - viewWidth
+  );
 
   return (
     <>
@@ -453,15 +457,25 @@ function GameTwo() {
       </div>
 
       <div className="viewport">
-        <div className="game2-container" style={{ transform: `translateX(-${cameraX}px)` }}>
+        <div
+          className="game2-container"
+          style={{ transform: `translateX(-${cameraX}px)` }}
+        >
           <Player position={playerPosition} isWalking={isWalking} />
 
-          {obstacles.map((obs) => !solvedObstacles.includes(obs.id) && <Obstacle key={obs.id} position={obs} />)}
+          {obstacles.map(
+            (obs) =>
+              !solvedObstacles.includes(obs.id) && (
+                <Obstacle key={obs.id} position={obs} />
+              )
+          )}
 
           <img
             src={pyramidImg}
             alt="Pyramid"
-            className={`pyramid ${solvedCount === totalObstacles ? "visible" : ""}`}
+            className={`pyramid ${
+              solvedCount === totalObstacles ? "visible" : ""
+            }`}
             style={{ left: `${pyramid.x}px`, bottom: `${pyramid.y}px` }}
           />
         </div>
@@ -494,8 +508,6 @@ function GameTwo() {
           />
         )}
       </div>
-
-      <Footer />
     </>
   );
 }

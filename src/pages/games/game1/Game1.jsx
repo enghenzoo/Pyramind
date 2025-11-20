@@ -86,6 +86,49 @@ export default function GameOne() {
   ];
 
   useEffect(() => {
+    if (isExploding) {
+      setIsFrozen(true); // نوقف الوقت أول ما تنفجر
+
+      const timer = setTimeout(() => {
+        setIsExploding(false); // وقف الانفجار
+        document.body.style.backgroundColor = ""; // رجع الخلفية
+
+        // التعديل هنا: لو لسه فيه وقت (يعني دي مجرد إجابة غلط)، كمل اللعب أوتوماتيك
+        if (time > 0) {
+          setIsFrozen(false);
+        }
+        // أما لو الوقت 0 (Game Over)، خليها Frozen زي ما هي عشان ميقدرش يكتب
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isExploding, time]);
+
+  // --- 2. منطق عداد الوقت ---
+  useEffect(() => {
+    // لو اللعبة واقفة أو بتنفجر أو كسبان -> متعدش وقت
+    if (isFrozen || isExploding || isCelebrating) return;
+
+    if (time > 0) {
+      if (time <= 10) setIsWarning(true);
+      else setIsWarning(false); // عشان لو عمل ريستارت التحذير يروح
+
+      const timer = setTimeout(() => setTime((prev) => prev - 1), 1000);
+      return () => clearTimeout(timer);
+    } else {
+      // الوقت خلص
+      if (!isExploding) {
+        // عشان ميعملش Loop انفجار
+        setIsCorrect(false);
+        setLog("Time's up");
+        setIsExploding(true);
+        bombAudio.play();
+      }
+    }
+  }, [time, isFrozen, isExploding, isCelebrating]);
+
+  // --- Logic 2: Game Timer ---
+  useEffect(() => {
     if (isFrozen || isExploding || isCelebrating) return;
     if (time > 0) {
       if (time <= 10) setIsWarning(true);
@@ -102,19 +145,20 @@ export default function GameOne() {
   const formatTime = (t) => `00:${t.toString().padStart(2, "0")}`;
 
   const handleSubmit = () => {
+    // --- Logic 3: Prevent Submit if Time is up, Exploding, or Won ---
+    if (time === 0 || isExploding || isCelebrating) return;
+
     try {
       let correct = false;
       const funcStr = userAnswer;
 
       switch (currentChallenge) {
         case 0: {
-          // factorial
           const testFunc = new Function("return " + funcStr)();
           correct = testFunc(5) === 120 && testFunc(0) === 1;
           break;
         }
         case 1: {
-          // anagram
           const testFunc = new Function("return " + funcStr)();
           correct =
             testFunc("listen", "silent") === true &&
@@ -122,20 +166,17 @@ export default function GameOne() {
           break;
         }
         case 2: {
-          // fibonacci
           const testFunc = new Function("return " + funcStr)();
           correct =
             testFunc(7) === 13 && testFunc(0) === 0 && testFunc(1) === 1;
           break;
         }
         case 3: {
-          // second largest
           const testFunc = new Function("return " + funcStr)();
           correct = testFunc([5, 1, 9, 7, 9]) === 7;
           break;
         }
         case 4: {
-          // prime
           const testFunc = new Function("return " + funcStr)();
           correct =
             testFunc(7) === true &&
@@ -144,13 +185,11 @@ export default function GameOne() {
           break;
         }
         case 5: {
-          // longest unique substring
           const testFunc = new Function("return " + funcStr)();
           correct = testFunc("abcabcbb") === 3 && testFunc("bbbbb") === 1;
           break;
         }
         case 6: {
-          // flatten
           const testFunc = new Function("return " + funcStr)();
           correct =
             JSON.stringify(testFunc([1, [2, [3, 4]], 5])) ===
@@ -158,7 +197,6 @@ export default function GameOne() {
           break;
         }
         case 7: {
-          // even numbers
           const testFunc = new Function("return " + funcStr)();
           correct =
             JSON.stringify(testFunc([1, 2, 3, 4, 5, 6])) ===
@@ -166,13 +204,11 @@ export default function GameOne() {
           break;
         }
         case 8: {
-          // reverse words
           const testFunc = new Function("return " + funcStr)();
           correct = testFunc("Hello world") === "olleH dlrow";
           break;
         }
         case 9: {
-          // debounce
           const testFunc = new Function("return " + funcStr)();
           const debounced = testFunc(() => "ok", 100);
           correct = typeof debounced === "function";
@@ -200,7 +236,7 @@ export default function GameOne() {
             document.body.style.backgroundColor = "";
           } else {
             setLog(
-              " Congratulations, Explosion of Victory, All Challenges Neutralized"
+              "Congratulations, Explosion of Victory, All Challenges Neutralized"
             );
             setIsCelebrating(true);
             document.body.style.backgroundColor = "var(--Green)";
@@ -257,19 +293,22 @@ export default function GameOne() {
             />
 
             <div className="buttons">
-              <button onClick={handleSubmit} className="btn-correct">
+              <button
+                onClick={handleSubmit}
+                className="btn-correct"
+                // --- Logic 3: Disable Button Visuals ---
+                disabled={time === 0 || isExploding || isCelebrating}
+                style={{
+                  opacity: time === 0 || isExploding || isCelebrating ? 0.5 : 1,
+                  cursor:
+                    time === 0 || isExploding || isCelebrating
+                      ? "not-allowed"
+                      : "pointer",
+                }}
+              >
                 Submit
               </button>
             </div>
-
-            {usedHint && (
-              <p
-                className="hint-text"
-                style={{ color: "var(--Purple)", marginTop: "10px" }}
-              >
-                {challenges[currentChallenge].hint}
-              </p>
-            )}
 
             {isCorrect !== null && (
               <p style={{ color: isCorrect ? "var(--Green)" : "var(--Red)" }}>
@@ -305,6 +344,23 @@ export default function GameOne() {
               Show Hint (-20s)
             </button>
 
+            {/* --- Visual: Hint moved here --- */}
+            {usedHint && (
+              <p
+                className="hint-text"
+                style={{
+                  color: "var(--Purple)",
+                  marginTop: "5px",
+                  fontSize: "0.9rem",
+                  marginBottom: "10px",
+                  borderBottom: "1px solid #444",
+                  paddingBottom: "5px",
+                }}
+              >
+                💡 {challenges[currentChallenge].hint}
+              </p>
+            )}
+
             <button
               className="btn-freeze"
               onClick={() => setIsFrozen(!isFrozen)}
@@ -315,6 +371,11 @@ export default function GameOne() {
             <button
               className="btn-restart"
               onClick={() => {
+                bombAudio.pause();
+                bombAudio.currentTime = 0;
+                cheerAudio.pause();
+                cheerAudio.currentTime = 0;
+
                 setTime(90);
                 setIsFrozen(false);
                 setUserAnswer("");
@@ -322,6 +383,7 @@ export default function GameOne() {
                 setLog("Retry the challenge...");
                 document.body.style.backgroundColor = "";
                 setIsExploding(false);
+                setIsWarning(false);
                 setUsedHint(false);
                 setIsCelebrating(false);
               }}
@@ -365,7 +427,6 @@ export default function GameOne() {
               ></div>
             ))}
             <h1>
-              {" "}
               Congratulations, Explosion of Victory, All Challenges Neutralized.
             </h1>
           </div>

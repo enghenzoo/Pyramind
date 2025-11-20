@@ -37,79 +37,59 @@
   z-index: 20;
 } */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .viewport {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    background-image: url('../../../assets/game2-background.jpg');
-    background-position: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-image: url("../../../assets/game2-background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .game2-container {
-    width: 4000px;
-    height: 100vh;
-    position: relative;
-    transition: transform 0.1s linear;
+  width: 4000px;
+  height: 100vh;
+  position: relative;
+  transition: transform 0.1s linear;
 }
 
 .pyramid {
-    position: absolute;
-    width: 600px;
-    height: 500px; 
+  position: absolute;
+  width: 600px;
+  height: 500px;
 }
 
 .pyramid.visible {
-    display: block;
+  display: block;
 }
 
 .game-ui {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    color: var(--White);
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 20;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  color: var(--White);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 20;
 }
 
 .back-arrow {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: var(--White);
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 24px;
-    z-index: 1000;
-    transition: all 0.2s ease-in-out;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--White);
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 1000;
+  transition: all 0.2s ease-in-out;
 }
 
 .back-arrow:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
