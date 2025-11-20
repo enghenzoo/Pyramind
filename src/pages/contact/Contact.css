@@ -1,15 +1,16 @@
-/* Contact Section */
+/* Main Contact Section container */
 .contact-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
   width: 100%;
-  min-height: 100vh;
+  min-height: 100vh; /* Full viewport height */
   background-color: var(--Very-Dark-Blue);
   padding: 20px;
 }
 
+/* Contact form box */
 .contact-box {
   position: relative;
   z-index: 1;
@@ -27,6 +28,7 @@
   margin-bottom: 30px;
 }
 
+/* Contact form title */
 .contact-title {
   font-family: "Roboto", sans-serif;
   font-size: 2.5rem;
@@ -37,18 +39,21 @@
   text-transform: uppercase;
 }
 
+/* Contact form subtitle */
 .contact-subtitle {
   font-size: 0.9rem;
   color: var(--White);
   margin-bottom: 30px;
 }
 
+/* Contact form container */
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 20px; /* Space between inputs */
 }
 
+/* Input fields and textarea */
 .contact-input,
 .contact-textarea {
   background: rgba(13, 12, 28, 0.5);
@@ -60,16 +65,19 @@
   transition: 0.3s ease;
 }
 
+/* Remove outline on focus */
 .contact-input:focus,
 .contact-textarea:focus {
   outline: none;
 }
 
+/* Textarea specific settings */
 .contact-textarea {
-  resize: none;
+  resize: none; /* Disable resizing */
   height: 120px;
 }
 
+/* Submit button */
 .contact-button {
   background: transparent;
   border: 1px solid var(--Deep-Pink);
@@ -84,12 +92,14 @@
   margin-top: 10px;
 }
 
+/* Hover effect for button */
 .contact-button:hover {
   background: var(--Deep-Pink);
   color: var(--Very-Dark-Blue);
   box-shadow: 0 0 15px var(--Deep-Pink);
 }
 
+/* Contact info section (like email, phone, etc.) */
 .contact-info {
   margin-top: 30px;
   font-size: 0.9rem;
@@ -107,8 +117,10 @@
   gap: 10px;
 }
 
+/* Footer text for contact page */
 .site-footer {
   text-align: center;
   color: var(--White);
   font-size: 13px;
 }
+
