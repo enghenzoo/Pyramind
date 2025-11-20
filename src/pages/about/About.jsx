@@ -42,7 +42,7 @@ const About = () => {
           <h3 className="about-section-title">VISION</h3>
           <p>
             Our goal is to create a game that’s not only fun but also
-            intellectually stimulating — a game that helps players improve their
+            intellectually stimulating a game that helps players improve their
             logical thinking, strategy planning, and cognitive skills while
             enjoying every moment.
           </p>
@@ -94,7 +94,7 @@ const About = () => {
               </p>
             </div>
 
-            <div className="card pink" key="backend-card">
+            {/* <div className="card pink" key="backend-card">
               <FaServer size={28} color="white" />
               <h4>BACK-END</h4>
               <p>
@@ -102,7 +102,7 @@ const About = () => {
                 data securely and efficiently.
               </p>
             </div>
-          </div>
+          </div> */}
         </section>
 
         {/* Target Audience */}
