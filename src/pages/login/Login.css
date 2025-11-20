@@ -1,22 +1,25 @@
+/* ================= Register Wrapper ================= */
 .register-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Flex container for centering */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
     width: 100%;
     padding: 20px;
 }
 
+/* ================= Register Box ================= */
 .register-box {
-    background: linear-gradient(to right, #2C5364, #1A1A2E, #3A3A66);
-    border: 1px solid var(--Deep-Pink);
-    border-radius: 15px;
+    background: linear-gradient(to right, #2C5364, #1A1A2E, #3A3A66); /* Gradient background */
+    border: 1px solid var(--Deep-Pink); /* Border color */
+    border-radius: 15px; /* Rounded corners */
     padding: 30px;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 0 0 rgba(118, 100, 114, 0.7);
-    text-align: center;
+    max-width: 400px; /* Max width for responsiveness */
+    box-shadow: 0 0 0 rgba(118, 100, 114, 0.7); /* Initial box shadow */
+    text-align: center; /* Center text */
 }
 
+/* ================= Register Box Heading ================= */
 .register-box h1 {
     font-size: 20px;
     color: var(--Deep-Pink);
@@ -25,16 +28,18 @@
         0 0 10px var(--Deep-Pink),
         0 0 21px var(--Deep-Pink),
         0 0 42px var(--Deep-Pink),
-        0 0 82px var(--Deep-Pink);
+        0 0 82px var(--Deep-Pink); /* Neon glow effect */
     margin-bottom: 10px;
 }
 
+/* Subtitle text */
 .subtitle {
     font-size: 14px;
     color: var(--White);
     margin-bottom: 20px;
 }
 
+/* ================= Form Styles ================= */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
@@ -62,11 +67,13 @@
     margin: 0 auto;
 }
 
+/* Input focus effect */
 .form-group input:focus {
     border-color: var(--Cyan);
     box-shadow: 0 0 10px var(--Cyan);
 }
 
+/* ================= Submit Button ================= */
 .submit-btn {
     width: 100%;
     padding: 10px;
@@ -82,35 +89,24 @@
     transition: 0.3s;
 }
 
+/* Submit button hover effect */
 .submit-btn:hover {
     box-shadow: 0 0 7px var(--Deep-Pink),
         0 0 7px var(--Deep-Pink),
         0 0 7px var(--Deep-Pink);
-    animation: shake 0.4s infinite;
+    animation: shake 0.4s infinite; /* Shake animation */
 }
 
+/* ================= Shake Animation ================= */
 @keyframes shake {
-    0% {
-        transform: translate(0, 0) scale(1.05);
-    }
-
-    25% {
-        transform: translate(-3px, 3px) scale(1.05);
-    }
-
-    50% {
-        transform: translate(3px, -3px) scale(1.05);
-    }
-
-    75% {
-        transform: translate(-3px, -3px) scale(1.05);
-    }
-
-    100% {
-        transform: translate(0, 0) scale(1.05);
-    }
+    0% { transform: translate(0, 0) scale(1.05); }
+    25% { transform: translate(-3px, 3px) scale(1.05); }
+    50% { transform: translate(3px, -3px) scale(1.05); }
+    75% { transform: translate(-3px, -3px) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1.05); }
 }
 
+/* ================= Divider ================= */
 .divider {
     text-align: center;
     margin: 20px 0;
@@ -125,6 +121,7 @@
     z-index: 2;
 }
 
+/* Divider lines before and after text */
 .divider span::before,
 .divider span::after {
     content: "";
@@ -135,14 +132,10 @@
     background: var(--Dark-Gray);
 }
 
-.divider span::before {
-    right: 100%;
-}
+.divider span::before { right: 100%; }
+.divider span::after { left: 100%; }
 
-.divider span::after {
-    left: 100%;
-}
-
+/* ================= Social Register Buttons ================= */
 .social-register {
     display: flex;
     justify-content: space-between;
@@ -171,13 +164,10 @@
     transition: 0.3s;
 }
 
+/* Hover effects for social buttons */
 .google-btn:hover {
     background: rgba(0, 224, 255, 0.1);
     box-shadow: 0 0 5px var(--Cyan);
-}
-
-.github-btn {
-    border-color: var(--Deep-Pink);
 }
 
 .github-btn:hover {
@@ -185,6 +175,7 @@
     box-shadow: 0 0 5px var(--Deep-Pink);
 }
 
+/* ================= Secondary Subtitle ================= */
 .subtitle2 {
     color: var(--Dark-Gray);
     font-size: 14px;
@@ -195,8 +186,10 @@
     text-decoration: none;
 }
 
+/* ================= Footer ================= */
 .site-footer {
     text-align: center;
     color: var(--White);
     font-size: 13px;
 }
+
