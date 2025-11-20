@@ -12,20 +12,25 @@ import GameOne from "./pages/games/game1/Game1";
 import GameTwo from "./pages/games/game2/Game2";
 import MobileWarning from "./Components/pc-needed";
 
+// RouteChecker component: wraps protected routes with MobileWarning
 function RouteChecker() {
-  const location = useLocation();
+  const location = useLocation(); // Get current route path
   const currentPath = location.pathname;
 
+  // Define paths that require desktop (protected paths)
   const protectedPaths = ["/tutorial1", "/game1", "/game2"];
 
+  // Check if current path is one of the protected paths
   const isProtectedPath = protectedPaths.some((path) =>
     currentPath.startsWith(path)
   );
 
+  // If the path is protected, wrap it with MobileWarning
   if (isProtectedPath) {
     return (
       <MobileWarning>
         <Routes>
+          {/* Public and protected routes */}
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -42,6 +47,7 @@ function RouteChecker() {
     );
   }
 
+  // If not a protected path, render routes normally
   return (
     <Routes>
       <Route path="/home" element={<Home />} />
@@ -59,9 +65,11 @@ function RouteChecker() {
   );
 }
 
+// Main App component
 function App() {
   return (
     <>
+      {/* Wrap the app with BrowserRouter for routing */}
       <BrowserRouter>
         <RouteChecker />
       </BrowserRouter>
@@ -70,3 +78,4 @@ function App() {
 }
 
 export default App;
+
