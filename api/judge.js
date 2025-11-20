@@ -1,49 +1,56 @@
 import axios from "axios";
 
+// Load the Gemini API key from server environment variables (keeps the key secure)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-// const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+// Base URL for calling the Gemini model, including the API key
 const GEMINI_MODEL_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 export default async function handler(req, res) {
+  // Ensure that the endpoint only accepts POST requests
   if (req.method !== "POST") {
     return res.status(405).send("Method Not Allowed");
   }
 
-  const { prompt } = req.body; // نستقبل الـ prompt من الواجهة الأمامية
+  // Extract the prompt sent from the frontend
+  const { prompt } = req.body;
 
-  // تحقق من وجود المفتاح
+  // Check if the API key exists on the server
   if (!GEMINI_API_KEY) {
     return res.status(500).json({ error: "Server key not configured." });
   }
 
-  // تحقق من وجود الـ prompt
+  // Validate that a prompt was provided
   if (!prompt) {
     return res.status(400).json({ error: "Prompt is required." });
   }
 
   try {
-    // 3. الاتصال بـ Gemini API باستخدام المفتاح الآمن
+    // Send a request to the Gemini API with the user's prompt
     const response = await axios.post(GEMINI_MODEL_URL, {
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {
-        temperature: 0.1,
+        temperature: 0.1, // Low randomness for more consistent responses
       },
     });
 
-    // 4. استخلاص الإجابة وإعادتها مباشرةً إلى الواجهة الأمامية
+    // Extract the text response returned by the model
     const judgeResponseText =
       response.data.candidates?.[0]?.content?.parts?.[0]?.text
         ?.trim()
         .toUpperCase();
 
-    // إرجاع الإجابة (PASS/FAIL) مع كود 200
+    // Return the processed result (PASS / FAIL) back to the frontend
     res.status(200).json({ verdict: judgeResponseText });
   } catch (error) {
     console.error("Gemini API call failed:", error.message);
-    // إرجاع خطأ إلى الواجهة الأمامية
+
+    // Return an error response if the API request fails
     res.status(500).json({
       error: "Failed to communicate with the judge.",
       details: error.response?.data || error.message,
     });
   }
 }
+
+
