@@ -1,57 +1,64 @@
+/* Main container for the tutorial page */
 .tutorial-page {
-    width: 100vw;
-    height: 200%;
-    background-size: cover;
-    background-position: center;
+    width: 100vw; /* Full viewport width */
+    height: 200%; /* Extra height for scroll or content */
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the background */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--Very-Dark-Blue);
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    background-color: var(--Very-Dark-Blue); /* Fallback background color */
 }
 
+/* Container for tutorial content */
 .tutorial-content {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
     width: 100%;
-    flex: 1;
+    flex: 1; /* Grow to fill available space */
 }
 
+/* Container for tutorial images */
 .tutorial-image-container {
-    position: relative;
-    max-width: 90%;
-    max-height: 100%;
-    overflow: hidden;
-    border-radius: 15px;
+    position: relative; /* Relative for positioning child elements if needed */
+    max-width: 90%; /* Limit width */
+    max-height: 100%; /* Limit height */
+    overflow: hidden; /* Hide overflowing content */
+    border-radius: 15px; /* Rounded corners */
 }
 
+/* Tutorial images styling */
 .tutorial-image {
-    width: 100%;
-    height: auto;
+    width: 100%; /* Full container width */
+    height: auto; /* Maintain aspect ratio */
     display: block;
-    border-radius: 15px;
+    border-radius: 15px; /* Match container corners */
 }
 
+/* Controls (e.g., Next/Previous buttons) */
 .tutorial-controls {
     display: flex;
-    gap: 20px;
-    margin: 20px 0;
+    gap: 20px; /* Space between buttons */
+    margin: 20px 0; /* Vertical spacing */
 }
 
+/* Individual control buttons */
 .tutorial-controls button {
     padding: 12px 25px;
     font-size: 16px;
     border: none;
-    border-radius: 10px;
-    cursor: pointer;
+    border-radius: 10px; /* Rounded buttons */
+    cursor: pointer; /* Pointer cursor on hover */
     background-color: var(--Deep-Pink);
     color: var(--White);
-    transition: transform 0.2s, background-color 0.2s;
+    transition: transform 0.2s, background-color 0.2s; /* Smooth hover effect */
 }
 
+/* Button hover effect */
 .tutorial-controls button:hover {
-    transform: scale(1.05);
-    background-color: var(--Deep-Pink);
+    transform: scale(1.05); /* Slight zoom */
+    background-color: var(--Deep-Pink); /* Ensure color stays consistent */
 }
 
