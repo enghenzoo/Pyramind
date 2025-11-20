@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-import Navbar from "../../Components/Navbar";
-import Footer from "../../Components/Footer";
+import { Navigate } from "react-router-dom"; // For programmatic navigation
+import Navbar from "../../Components/Navbar"; // Navbar component
+import Footer from "../../Components/Footer"; // Footer component
 import step1Img from "../../assets/tutorial-1-1.png";
 import step2Img from "../../assets/tutorial-2-1.png";
 import step3Img from "../../assets/tutorial-3-1.png";
@@ -10,6 +10,7 @@ import step5Img from "../../assets/tutorial-5-1.png";
 import "./Tutorial-1.css";
 
 export default function TutorialOne() {
+  // Array of tutorial steps with associated images
   const steps = [
     { image: step1Img },
     { image: step2Img },
@@ -18,33 +19,35 @@ export default function TutorialOne() {
     { image: step5Img },
   ];
 
-  const [currentStep, setCurrentStep] = useState(0);
-  // إضافة حالة لتحديد متى يجب إعادة التوجيه
-  const [shouldRedirect, setShouldRedirect] = useState(false); 
+  const [currentStep, setCurrentStep] = useState(0); // Track current step
+  const [shouldRedirect, setShouldRedirect] = useState(false); // State for redirecting after last step
 
+  // Go to the next step or trigger redirect if last step
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(prev => prev + 1);
     } else {
-      // عند الوصول للخطوة الأخيرة، يتم تفعيل حالة إعادة التوجيه
-      setShouldRedirect(true); 
+      // When reaching last step, enable redirect
+      setShouldRedirect(true);
     }
   };
 
+  // Go to previous step
   const handlePrev = () => {
     if (currentStep > 0) setCurrentStep(prev => prev - 1);
   };
 
-  // عرض مكون Navigate بناءً على الحالة
+  // If redirect state is true, navigate to the game page
   if (shouldRedirect) {
     return <Navigate to="/game1" />;
   }
 
+  // Get the current step image
   const { image } = steps[currentStep];
 
   return (
     <>
-      <Navbar />
+      <Navbar /> {/* Display Navbar */}
       <div className="tutorial-page">
         <div className="tutorial-content">
           <div className="tutorial-image-container">
@@ -52,14 +55,16 @@ export default function TutorialOne() {
           </div>
         </div>
 
+        {/* Navigation buttons for tutorial steps */}
         <div className="tutorial-controls">
           <button onClick={handlePrev} disabled={currentStep === 0}>Previous</button>
           <button onClick={handleNext}>
+            {/* Change text on last step */}
             {currentStep === steps.length - 1 ? "Start Game " : "Next "}
           </button>
         </div>
       </div> 
-      <Footer />
+      <Footer /> {/* Display Footer */}
     </>
   );
 }
