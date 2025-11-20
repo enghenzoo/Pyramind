@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from "react"; // 1. تم إضافة useRef
-import axios from "axios";
-import "./Game1.css";
-import Navbar from "../../../Components/Navbar";
-import Footer from "../../../Components/Footer";
-import cheerSound from "../../../assets/sound-cheer.wav";
-import bombSound from "../../../assets/bomb-sound.wav";
-import clockSound from "../../../assets/clock.mp3"; // 2. تم استيراد صوت الساعة
-import bombImg from "../../../assets/bomb.webp";
-import explosionImg from "../../../assets/explosion.webp";
+import React, { useState, useEffect, useRef } from "react"; // React hooks: useState, useEffect, useRef
+import axios from "axios"; // HTTP requests
+import "./Game1.css"; // Game CSS
+import Navbar from "../../../Components/Navbar"; // Navbar component
+import Footer from "../../../Components/Footer"; // Footer component
+import cheerSound from "../../../assets/sound-cheer.wav"; // Success sound
+import bombSound from "../../../assets/bomb-sound.wav"; // Explosion sound
+import clockSound from "../../../assets/clock.mp3"; // Timer ticking sound
+import bombImg from "../../../assets/bomb.webp"; // Bomb image
+import explosionImg from "../../../assets/explosion.webp"; // Explosion image
 
-// --- إعدادات الـ AI ---
-const JUDGE_ENDPOINT = "/api/judge";
+const JUDGE_ENDPOINT = "/api/judge"; // API endpoint for code judging
 
+// Available programming languages
 const LANGUAGES = [
   { id: 71, name: "Python 3" },
   { id: 63, name: "JavaScript (Node.js)" },
@@ -22,47 +22,43 @@ const LANGUAGES = [
 ];
 
 export default function GameOne() {
-  // State
-  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[1].id);
-  const [currentChallenge, setCurrentChallenge] = useState(0);
-  const [userAnswer, setUserAnswer] = useState("");
-  const [time, setTime] = useState(90);
-  const [isFrozen, setIsFrozen] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [log, setLog] = useState("System initialized. Waiting for code...");
-  const [isExploding, setIsExploding] = useState(false);
-  const [isWarning, setIsWarning] = useState(false);
-  const [usedHint, setUsedHint] = useState(false);
-  const [isCelebrating, setIsCelebrating] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // --- State variables ---
+  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[1].id); // Default JS
+  const [currentChallenge, setCurrentChallenge] = useState(0); // Index of current challenge
+  const [userAnswer, setUserAnswer] = useState(""); // Code input by user
+  const [time, setTime] = useState(90); // Countdown timer
+  const [isFrozen, setIsFrozen] = useState(false); // Freeze timer
+  const [isCorrect, setIsCorrect] = useState(null); // Track correctness
+  const [log, setLog] = useState("System initialized. Waiting for code..."); // System log
+  const [isExploding, setIsExploding] = useState(false); // Explosion effect active
+  const [isWarning, setIsWarning] = useState(false); // Timer warning (last 10s)
+  const [usedHint, setUsedHint] = useState(false); // Track hint usage
+  const [isCelebrating, setIsCelebrating] = useState(false); // Celebration effect active
+  const [isLoading, setIsLoading] = useState(false); // API request in progress
 
-  // الأصوات (Cheer و Bomb يتم تشغيلهم مرة واحدة فلا بأس بتعريفهم هنا)
-  const cheerAudio = new Audio(cheerSound);
-  const bombAudio = new Audio(bombSound);
+  // --- Audio instances ---
+  const cheerAudio = new Audio(cheerSound); // Success sound
+  const bombAudio = new Audio(bombSound); // Explosion sound
+  const clockAudioRef = useRef(new Audio(clockSound)); // Timer ticking sound (useRef to persist)
 
-  // --- 3. إعداد صوت الساعة باستخدام useRef (لضمان عدم تكراره مع كل Render) ---
-  const clockAudioRef = useRef(new Audio(clockSound));
-
-  // --- 4. ضبط خصائص صوت الساعة عند فتح الصفحة ---
+  // --- Setup clock audio on mount ---
   useEffect(() => {
-    clockAudioRef.current.loop = true; // تكرار الصوت
-    clockAudioRef.current.volume = 0.5; // مستوى الصوت (اختياري)
+    clockAudioRef.current.loop = true; // Loop the ticking sound
+    clockAudioRef.current.volume = 0.5; // Optional volume
 
     return () => {
-      // تنظيف عند الخروج من الصفحة
+      // Cleanup on unmount
       clockAudioRef.current.pause();
       clockAudioRef.current.currentTime = 0;
     };
   }, []);
 
-  // --- 5. التحكم في تشغيل/إيقاف صوت الساعة بناءً على حالة اللعبة ---
+  // --- Play/pause clock based on game state ---
   useEffect(() => {
-    // الشرط: الوقت شغال + مش مجمد + مفيش انفجار + مفيش احتفال + مفيش تحميل
     const isTimerActive =
       time > 0 && !isFrozen && !isExploding && !isCelebrating && !isLoading;
 
     if (isTimerActive) {
-      // محاولة التشغيل (مع catch لتجنب أخطاء المتصفح)
       clockAudioRef.current
         .play()
         .catch((e) => console.warn("Audio play blocked:", e));
@@ -71,7 +67,7 @@ export default function GameOne() {
     }
   }, [time, isFrozen, isExploding, isCelebrating, isLoading]);
 
-  // --- بيانات التحديات ---
+  // --- Challenges data ---
   const challenges = [
     {
       question: "Write a function that returns the factorial of n.",
@@ -121,32 +117,33 @@ export default function GameOne() {
     },
   ];
 
-  // --- منطق الانفجار ---
+  // --- Explosion logic ---
   useEffect(() => {
     if (isExploding) {
-      setIsFrozen(true);
+      setIsFrozen(true); // Freeze game
       const timer = setTimeout(() => {
-        setIsExploding(false);
+        setIsExploding(false); // Stop explosion after 3s
         document.body.style.backgroundColor = "";
         if (time > 0) {
-          setIsFrozen(false);
+          setIsFrozen(false); // Unfreeze if time remains
         }
       }, 3000);
       return () => clearTimeout(timer);
     }
   }, [isExploding, time]);
 
-  // --- منطق عداد الوقت ---
+  // --- Countdown timer logic ---
   useEffect(() => {
     if (isFrozen || isExploding || isCelebrating || isLoading) return;
 
     if (time > 0) {
-      if (time <= 10) setIsWarning(true);
+      if (time <= 10) setIsWarning(true); // Last 10s warning
       else setIsWarning(false);
 
       const timer = setTimeout(() => setTime((prev) => prev - 1), 1000);
       return () => clearTimeout(timer);
     } else {
+      // Time's up
       if (!isExploding) {
         setIsCorrect(false);
         setLog("Time's up! System Failure.");
@@ -156,9 +153,10 @@ export default function GameOne() {
     }
   }, [time, isFrozen, isExploding, isCelebrating, isLoading]);
 
+  // --- Format timer display ---
   const formatTime = (t) => `00:${t.toString().padStart(2, "0")}`;
 
-  // --- بناء Prompt الـ AI ---
+  // --- Build AI judge prompt ---
   const buildJudgePrompt = (code, langName, details) => {
     return `
 You are an automated coding judge. Your task is to mentally execute or rigorously simulate the provided code based on the given test case and determine whether the final output exactly matches the expected output.
@@ -197,7 +195,7 @@ Respond with only ONE word:
     `.trim();
   };
 
-  // --- دالة إعادة المحاولة ---
+  // --- Retry logic for API requests ---
   const fetchVerdictWithRetry = async (prompt, retries = 3, delay = 1000) => {
     try {
       const response = await axios.post(JUDGE_ENDPOINT, { prompt });
@@ -212,9 +210,9 @@ Respond with only ONE word:
     }
   };
 
-  // --- Handle Submit ---
+  // --- Handle code submission ---
   const handleSubmit = async () => {
-    if (time === 0 || isExploding || isCelebrating || isLoading) return;
+    if (time === 0 || isExploding || isCelebrating || isLoading) return; // Prevent submission
     if (!userAnswer.trim()) {
       setLog("Please write some code first.");
       return;
@@ -243,6 +241,7 @@ Respond with only ONE word:
         setLog("Access Granted! Code Valid.");
         cheerAudio.play();
 
+        // Load next challenge or celebrate
         setTimeout(() => {
           const next = currentChallenge + 1;
           if (next < challenges.length) {
@@ -279,18 +278,17 @@ Respond with only ONE word:
     }
   };
 
-  // --- دالة إعادة التشغيل (Restart) ---
+  // --- Restart the game ---
   const handleRestart = () => {
-    // إيقاف وتصفير جميع الأصوات
+    // Stop all audio
     bombAudio.pause();
     bombAudio.currentTime = 0;
     cheerAudio.pause();
     cheerAudio.currentTime = 0;
-
-    // 6. إعادة ضبط صوت الساعة
     clockAudioRef.current.pause();
     clockAudioRef.current.currentTime = 0;
 
+    // Reset state
     setTime(90);
     setIsFrozen(false);
     setUserAnswer("");
@@ -305,41 +303,31 @@ Respond with only ONE word:
     setCurrentChallenge(0);
   };
 
+  // --- JSX Rendering ---
   return (
     <>
       <Navbar />
       <div className={`game-page ${isExploding ? "explode" : ""}`}>
+        {/* Timer */}
         <div className={`timer ${isWarning ? "warning" : ""}`}>
           {formatTime(time)}
         </div>
 
+        {/* Main Layout */}
         <div className="game-layout">
+          {/* Console Panel */}
           <div className="console">
-            <div
-              className="console-header"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "10px",
-              }}
-            >
+            <div className="console-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
               <h3>CODING CHALLENGE</h3>
             </div>
+
+            {/* Language Selector */}
             <div>
               <select
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value)}
                 disabled={isLoading || isExploding}
-                style={{
-                  background: "#222",
-                  color: "var(--Cyan)",
-                  border: "1px solid var(--Cyan)",
-                  padding: "5px 10px",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  fontFamily: "monospace",
-                }}
+                style={{ background: "#222", color: "var(--Cyan)", border: "1px solid var(--Cyan)", padding: "5px 10px", borderRadius: "5px", cursor: "pointer", fontFamily: "monospace" }}
               >
                 {LANGUAGES.map((lang) => (
                   <option key={lang.id} value={lang.id}>
@@ -349,86 +337,45 @@ Respond with only ONE word:
               </select>
             </div>
 
+            {/* Challenge Question */}
             <pre className="challenge">
               {challenges[currentChallenge].question}
-              <div
-                style={{ marginTop: "10px", fontSize: "0.8em", color: "#aaa" }}
-              >
-                Input: {challenges[currentChallenge].testCase.input} | Expected:{" "}
-                {challenges[currentChallenge].testCase.expected}
+              <div style={{ marginTop: "10px", fontSize: "0.8em", color: "#aaa" }}>
+                Input: {challenges[currentChallenge].testCase.input} | Expected: {challenges[currentChallenge].testCase.expected}
               </div>
             </pre>
 
+            {/* User Code Input */}
             <textarea
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-              placeholder={`// Write your ${
-                LANGUAGES.find((l) => l.id == selectedLanguage)?.name
-              } solution here...`}
+              placeholder={`// Write your ${LANGUAGES.find((l) => l.id == selectedLanguage)?.name} solution here...`}
               disabled={isLoading || isExploding || isCelebrating}
               style={{ opacity: isLoading ? 0.7 : 1 }}
             />
 
+            {/* Submit Button */}
             <div className="buttons">
-              <button
-                onClick={handleSubmit}
-                className="btn-correct"
-                disabled={
-                  time === 0 || isExploding || isCelebrating || isLoading
-                }
-                style={{
-                  opacity:
-                    time === 0 || isExploding || isCelebrating || isLoading
-                      ? 0.5
-                      : 1,
-                  cursor:
-                    time === 0 || isExploding || isCelebrating || isLoading
-                      ? "not-allowed"
-                      : "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                }}
-              >
+              <button onClick={handleSubmit} className="btn-correct" disabled={time === 0 || isExploding || isCelebrating || isLoading} style={{ opacity: time === 0 || isExploding || isCelebrating || isLoading ? 0.5 : 1, cursor: time === 0 || isExploding || isCelebrating || isLoading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
                 {isLoading ? "Analyzing..." : "Submit Solution"}
-                {isLoading && (
-                  <div
-                    className="spinner"
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      border: "2px solid #fff",
-                      borderTopColor: "transparent",
-                      borderRadius: "50%",
-                      animation: "spin 1s linear infinite",
-                    }}
-                  ></div>
-                )}
+                {isLoading && <div className="spinner" style={{ width: "12px", height: "12px", border: "2px solid #fff", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }}></div>}
               </button>
             </div>
 
+            {/* Result */}
             {isCorrect !== null && !isLoading && (
-              <p
-                style={{
-                  color: isCorrect ? "var(--Green)" : "var(--Red)",
-                  fontWeight: "bold",
-                  marginTop: "10px",
-                }}
-              >
+              <p style={{ color: isCorrect ? "var(--Green)" : "var(--Red)", fontWeight: "bold", marginTop: "10px" }}>
                 {isCorrect ? "PASSED" : "FAILED"}
               </p>
             )}
           </div>
 
+          {/* Bomb/Explosion Animation */}
           <div className="animation">
-            <img
-              src={isExploding ? explosionImg : bombImg}
-              alt="bomb"
-              className={`bomb-image ${isExploding ? "explode" : ""}`}
-            />
+            <img src={isExploding ? explosionImg : bombImg} alt="bomb" className={`bomb-image ${isExploding ? "explode" : ""}`} />
           </div>
 
+          {/* System Status Panel */}
           <div className="status">
             <h3>SYSTEM STATUS</h3>
             <div className="log">
@@ -436,86 +383,55 @@ Respond with only ONE word:
               <p>{log}</p>
             </div>
 
-            <button
-              className="btn-hint"
-              disabled={isLoading || isExploding}
-              onClick={() => {
-                if (!usedHint) {
-                  setUsedHint(true);
-                  setTime((t) => Math.max(t - 20, 0));
-                }
-              }}
-            >
+            {/* Hint Button */}
+            <button className="btn-hint" disabled={isLoading || isExploding} onClick={() => { if (!usedHint) { setUsedHint(true); setTime((t) => Math.max(t - 20, 0)); } }}>
               Show Hint (-20s)
             </button>
 
+            {/* Hint Text */}
             {usedHint && (
-              <p
-                className="hint-text"
-                style={{
-                  color: "var(--Purple)",
-                  marginTop: "5px",
-                  fontSize: "0.9rem",
-                  marginBottom: "10px",
-                  borderBottom: "1px solid #444",
-                  paddingBottom: "5px",
-                }}
-              >
+              <p className="hint-text" style={{ color: "var(--Purple)", marginTop: "5px", fontSize: "0.9rem", marginBottom: "10px", borderBottom: "1px solid #444", paddingBottom: "5px" }}>
                 💡 {challenges[currentChallenge].hint}
               </p>
             )}
 
-            <button
-              className="btn-freeze"
-              disabled={isLoading || isExploding}
-              onClick={() => setIsFrozen(!isFrozen)}
-            >
+            {/* Freeze Button */}
+            <button className="btn-freeze" disabled={isLoading || isExploding} onClick={() => setIsFrozen(!isFrozen)}>
               {isFrozen ? "Unfreeze" : "Freeze Time"}
             </button>
 
+            {/* Restart Button */}
             <button className="btn-restart" onClick={handleRestart}>
               Restart System
             </button>
           </div>
         </div>
 
+        {/* Stage Bar */}
         <div className="stage-bar">
           {challenges.map((_, idx) => (
-            <span
-              key={idx}
-              style={{
-                color: idx <= currentChallenge ? "var(--Cyan)" : "var(--White)",
-              }}
-            >
+            <span key={idx} style={{ color: idx <= currentChallenge ? "var(--Cyan)" : "var(--White)" }}>
               Stage {idx + 1}
             </span>
           ))}
         </div>
 
+        {/* Celebration Overlay */}
         {isCelebrating && (
           <div className="blur-overlay">
             {[...Array(50)].map((_, i) => (
-              <div
-                key={i}
-                className="confetti"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                  width: `${5 + Math.random() * 10}px`,
-                  height: `${5 + Math.random() * 10}px`,
-                  animationDelay: `${Math.random() * 3}s`,
-                  animationDuration: `${2 + Math.random() * 3}s`,
-                }}
-              ></div>
+              <div key={i} className="confetti" style={{ left: `${Math.random() * 100}%`, backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`, width: `${5 + Math.random() * 10}px`, height: `${5 + Math.random() * 10}px`, animationDelay: `${Math.random() * 3}s`, animationDuration: `${2 + Math.random() * 3}s` }}></div>
             ))}
             <h1>Congratulations! Threat Neutralized.</h1>
           </div>
         )}
       </div>
       <Footer />
+      {/* Spinner animation */}
       <style>{`
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       `}</style>
     </>
   );
 }
+
