@@ -1,25 +1,23 @@
-/* Neon Animation */
+/* Neon Animation for glowing text */
 @keyframes glowPulse {
   0% {
     text-shadow: 0 0 10px var(--Deep-Pink), 0 0 20px var(--Cyan);
   }
-
   50% {
     text-shadow: 0 0 30px var(--Deep-Pink), 0 0 50px var(--Cyan);
   }
-
   100% {
     text-shadow: 0 0 10px var(--Deep-Pink), 0 0 20px var(--Cyan);
   }
 }
 
-/* Container */
+/* Main container for landing/about page */
 .landing-container {
   text-align: center;
   padding: 60px 20px;
 }
 
-/* Title */
+/* Main title */
 .about-title {
   font-size: 5rem;
   color: var(--Deep-Pink);
@@ -28,7 +26,7 @@
     0 0 50px rgba(255, 20, 147, 0.7);
 }
 
-/* Subtitle */
+/* Subtitle under the main title */
 .about-subtitle {
   font-size: 1.5rem;
   color: var(--Cyan);
@@ -36,20 +34,22 @@
   text-shadow: 0 0 40px rgba(0, 224, 255, 0.7);
 }
 
-/* Section */
+/* Individual section styling */
 .about-section {
   margin-bottom: 70px;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: start; /* Align content to start (left) */
 }
 
+/* Section titles */
 .about-section-title {
   font-size: 1.5rem;
   color: var(--Deep-Pink);
   margin-bottom: 15px;
 }
 
+/* Decorative bullet before section titles */
 .about-section-title::before {
   content: "●";
   color: var(--Cyan);
@@ -58,35 +58,39 @@
   text-shadow: 0 0 10px var(--Cyan);
 }
 
+/* Section paragraph text */
 .about-section p {
   color: var(--White);
-  max-width: 700px;
-  line-height: 1.6;
-  text-align: start;
+  max-width: 700px; /* Limit paragraph width */
+  line-height: 1.6; /* Improve readability */
+  text-align: start; /* Left-aligned text */
 }
 
-/* Cards */
+/* Cards container */
 .about-cards {
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 50px; /* Space between cards */
   margin-top: 25px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Wrap cards on smaller screens */
 }
 
+/* Individual card styling */
 .card {
   background-color: var(--Very-Dark-Blue);
   border-radius: 12px;
   padding: 20px;
   width: 280px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); /* Subtle shadow */
   transition: transform 0.3s ease;
 }
 
+/* Card hover effect */
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-8px); /* Lift card on hover */
 }
 
+/* Card titles and text */
 .card h4 {
   margin-top: 15px;
   margin-bottom: 10px;
@@ -98,16 +102,11 @@
   color: var(--White);
 }
 
-/* Neon borders */
+/* Neon border card variant */
 .card.cyan {
   border: 2px solid var(--Cyan);
   box-shadow: 0 0 15px var(--Cyan);
 }
-
-/* .card.pink {
-  border: 2px solid var(--Deep-Pink);
-  box-shadow: 0 0 15px var(--Deep-Pink);
-} */
 
 /* Buttons container */
 .about-button {
@@ -115,32 +114,35 @@
   margin: auto;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 20px; /* Space between buttons */
 }
 
-/* Buttons styles */
+/* Buttons styling */
 .btn {
   padding: 12px 28px;
   font-size: 1rem;
   cursor: pointer;
   font-weight: bold;
-  transition: 0.3s ease;
+  transition: 0.3s ease; /* Smooth hover transitions */
   color: var(--White);
   background: transparent;
   transform: translateY(0);
 }
 
+/* Cyan button variant with neon glow */
 .btn.cyan {
   border: 2px solid var(--Cyan);
   box-shadow: 0 0 10px var(--Cyan);
 }
 
+/* Hover effect for cyan button */
 .btn.cyan:hover {
   background: var(--Cyan);
   color: var(--Very-Dark-Blue);
-  transform: translateY(-3px);
+  transform: translateY(-3px); /* Slight lift on hover */
 }
 
+/* Responsive styles for smaller screens */
 @media (max-width: 768px) {
   .about-title {
     font-size: 3.5rem;
@@ -151,11 +153,11 @@
   }
 
   .about-section {
-    align-items: center;
+    align-items: center; /* Center sections on mobile */
     text-align: center;
   }
 
   .about-section p {
-    text-align: center;
+    text-align: center; /* Center paragraph text */
   }
 }
