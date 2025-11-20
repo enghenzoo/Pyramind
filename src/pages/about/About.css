@@ -104,10 +104,10 @@
   box-shadow: 0 0 15px var(--Cyan);
 }
 
-.card.pink {
+/* .card.pink {
   border: 2px solid var(--Deep-Pink);
   box-shadow: 0 0 15px var(--Deep-Pink);
-}
+} */
 
 /* Buttons container */
 .about-button {
