@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react"; // 1. تم إضافة useRef
 import axios from "axios";
 import "./Game1.css";
 import Navbar from "../../../Components/Navbar";
 import Footer from "../../../Components/Footer";
 import cheerSound from "../../../assets/sound-cheer.wav";
 import bombSound from "../../../assets/bomb-sound.wav";
+import clockSound from "../../../assets/clock.mp3"; // 2. تم استيراد صوت الساعة
 import bombImg from "../../../assets/bomb.webp";
 import explosionImg from "../../../assets/explosion.webp";
 
 // --- إعدادات الـ AI ---
-const JUDGE_ENDPOINT = "/api/judge"; // تأكد ان ملف الـ backend موجود في المسار ده
+const JUDGE_ENDPOINT = "/api/judge";
 
 const LANGUAGES = [
   { id: 71, name: "Python 3" },
@@ -22,7 +23,7 @@ const LANGUAGES = [
 
 export default function GameOne() {
   // State
-  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[1].id); // Default JS
+  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[1].id);
   const [currentChallenge, setCurrentChallenge] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [time, setTime] = useState(90);
@@ -33,12 +34,44 @@ export default function GameOne() {
   const [isWarning, setIsWarning] = useState(false);
   const [usedHint, setUsedHint] = useState(false);
   const [isCelebrating, setIsCelebrating] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // عشان نمنع التكرار وقت التحميل
+  const [isLoading, setIsLoading] = useState(false);
 
+  // الأصوات (Cheer و Bomb يتم تشغيلهم مرة واحدة فلا بأس بتعريفهم هنا)
   const cheerAudio = new Audio(cheerSound);
   const bombAudio = new Audio(bombSound);
 
-  // --- بيانات التحديات (تم تعديلها لتناسب الـ AI) ---
+  // --- 3. إعداد صوت الساعة باستخدام useRef (لضمان عدم تكراره مع كل Render) ---
+  const clockAudioRef = useRef(new Audio(clockSound));
+
+  // --- 4. ضبط خصائص صوت الساعة عند فتح الصفحة ---
+  useEffect(() => {
+    clockAudioRef.current.loop = true; // تكرار الصوت
+    clockAudioRef.current.volume = 0.5; // مستوى الصوت (اختياري)
+
+    return () => {
+      // تنظيف عند الخروج من الصفحة
+      clockAudioRef.current.pause();
+      clockAudioRef.current.currentTime = 0;
+    };
+  }, []);
+
+  // --- 5. التحكم في تشغيل/إيقاف صوت الساعة بناءً على حالة اللعبة ---
+  useEffect(() => {
+    // الشرط: الوقت شغال + مش مجمد + مفيش انفجار + مفيش احتفال + مفيش تحميل
+    const isTimerActive =
+      time > 0 && !isFrozen && !isExploding && !isCelebrating && !isLoading;
+
+    if (isTimerActive) {
+      // محاولة التشغيل (مع catch لتجنب أخطاء المتصفح)
+      clockAudioRef.current
+        .play()
+        .catch((e) => console.warn("Audio play blocked:", e));
+    } else {
+      clockAudioRef.current.pause();
+    }
+  }, [time, isFrozen, isExploding, isCelebrating, isLoading]);
+
+  // --- بيانات التحديات ---
   const challenges = [
     {
       question: "Write a function that returns the factorial of n.",
@@ -88,14 +121,13 @@ export default function GameOne() {
     },
   ];
 
-  // --- 1. منطق الانفجار (3 ثواني) ---
+  // --- منطق الانفجار ---
   useEffect(() => {
     if (isExploding) {
       setIsFrozen(true);
       const timer = setTimeout(() => {
         setIsExploding(false);
         document.body.style.backgroundColor = "";
-        // لو لسه فيه وقت، فك التجميد عشان اليوزر يكمل
         if (time > 0) {
           setIsFrozen(false);
         }
@@ -104,7 +136,7 @@ export default function GameOne() {
     }
   }, [isExploding, time]);
 
-  // --- 2. منطق عداد الوقت ---
+  // --- منطق عداد الوقت ---
   useEffect(() => {
     if (isFrozen || isExploding || isCelebrating || isLoading) return;
 
@@ -115,7 +147,6 @@ export default function GameOne() {
       const timer = setTimeout(() => setTime((prev) => prev - 1), 1000);
       return () => clearTimeout(timer);
     } else {
-      // الوقت خلص
       if (!isExploding) {
         setIsCorrect(false);
         setLog("Time's up! System Failure.");
@@ -127,7 +158,7 @@ export default function GameOne() {
 
   const formatTime = (t) => `00:${t.toString().padStart(2, "0")}`;
 
-  // --- 3. بناء الـ Prompt للذكاء الاصطناعي ---
+  // --- بناء Prompt الـ AI ---
   const buildJudgePrompt = (code, langName, details) => {
     return `
 You are an automated coding judge. Your task is to mentally execute or rigorously simulate the provided code based on the given test case and determine whether the final output exactly matches the expected output.
@@ -166,31 +197,23 @@ Respond with only ONE word:
     `.trim();
   };
 
-// --- دالة مساعدة للمحاولة 3 مرات في حالة خطأ السيرفر ---
+  // --- دالة إعادة المحاولة ---
   const fetchVerdictWithRetry = async (prompt, retries = 3, delay = 1000) => {
     try {
       const response = await axios.post(JUDGE_ENDPOINT, { prompt });
       return response.data.verdict;
     } catch (error) {
-      // لو لسه فاضل محاولات + الخطأ من السيرفر (5xx) أو مشكلة شبكة
       if (retries > 0 && (!error.response || error.response.status >= 500)) {
-        // تحديث اللوج لليوزر عشان يعرف إننا بنحاول تاني
         setLog(`Server busy. Retrying in ${delay / 1000}s...`);
-        
-        // انتظار (Delay)
         await new Promise((resolve) => setTimeout(resolve, delay));
-        
-        // محاولة مرة أخرى مع زيادة وقت الانتظار (Exponential Backoff)
         return fetchVerdictWithRetry(prompt, retries - 1, delay * 2);
       }
-      // لو خلصت المحاولات ارمي الإيرور
       throw error;
     }
   };
 
-  // --- 4. دالة الإرسال (Handle Submit) المعدلة ---
+  // --- Handle Submit ---
   const handleSubmit = async () => {
-    // شروط المنع
     if (time === 0 || isExploding || isCelebrating || isLoading) return;
     if (!userAnswer.trim()) {
       setLog("Please write some code first.");
@@ -198,21 +221,24 @@ Respond with only ONE word:
     }
 
     setIsLoading(true);
-    setLog("Analyzing code with AI...");
-    setIsCorrect(null); 
+    setLog("Analyzing code...");
+    setIsCorrect(null);
 
     try {
       const currentChallengeData = challenges[currentChallenge];
-      const selectedLangName = LANGUAGES.find((l) => l.id == selectedLanguage)?.name || "Unknown";
+      const selectedLangName =
+        LANGUAGES.find((l) => l.id == selectedLanguage)?.name || "Unknown";
 
-      const prompt = buildJudgePrompt(userAnswer, selectedLangName, currentChallengeData);
-
-      const verdict = await fetchVerdictWithRetry(prompt); 
+      const prompt = buildJudgePrompt(
+        userAnswer,
+        selectedLangName,
+        currentChallengeData
+      );
+      const verdict = await fetchVerdictWithRetry(prompt);
 
       setIsLoading(false);
 
       if (verdict && verdict.includes("PASS")) {
-        // --- إجابة صحيحة ---
         setIsCorrect(true);
         setLog("Access Granted! Code Valid.");
         cheerAudio.play();
@@ -235,32 +261,49 @@ Respond with only ONE word:
             cheerAudio.play();
           }
         }, 1500);
-
       } else {
-        // --- إجابة خاطئة (AI قال FAIL) ---
         throw new Error("Wrong Answer");
       }
-
     } catch (error) {
       setIsLoading(false);
-      
-      // لو الخطأ "Wrong Answer" يعني الكود اشتغل بس غلط
       if (error.message === "Wrong Answer") {
-          setIsCorrect(false);
-          setLog("Access Denied! Logic Incorrect.");
+        setIsCorrect(false);
+        setLog("Access Denied! Logic Incorrect.");
       } else {
-          // لو الخطأ بسبب السيرفر أو الشبكة بعد استنفاد المحاولات
-          setLog("Connection Lost. System Overload.");
-          console.error("Submission error:", error);
+        setLog("Connection Lost. System Overload.");
+        console.error("Submission error:", error);
       }
-
       setIsExploding(true);
       document.body.style.backgroundColor = "var(--Red)";
       bombAudio.play();
     }
   };
 
-  // ملاحظة: شلت الـ return اللي كان بيطلب اللغة في البداية، دلوقتي اللغة بتختارها من جوا
+  // --- دالة إعادة التشغيل (Restart) ---
+  const handleRestart = () => {
+    // إيقاف وتصفير جميع الأصوات
+    bombAudio.pause();
+    bombAudio.currentTime = 0;
+    cheerAudio.pause();
+    cheerAudio.currentTime = 0;
+
+    // 6. إعادة ضبط صوت الساعة
+    clockAudioRef.current.pause();
+    clockAudioRef.current.currentTime = 0;
+
+    setTime(90);
+    setIsFrozen(false);
+    setUserAnswer("");
+    setIsCorrect(null);
+    setLog("System Rebooted.");
+    document.body.style.backgroundColor = "";
+    setIsExploding(false);
+    setIsWarning(false);
+    setUsedHint(false);
+    setIsCelebrating(false);
+    setIsLoading(false);
+    setCurrentChallenge(0);
+  };
 
   return (
     <>
@@ -284,7 +327,6 @@ Respond with only ONE word:
               <h3>CODING CHALLENGE</h3>
             </div>
             <div>
-              {/* --- قائمة اختيار اللغة --- */}
               <select
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value)}
@@ -309,7 +351,6 @@ Respond with only ONE word:
 
             <pre className="challenge">
               {challenges[currentChallenge].question}
-              {/* عرض Test Case كمساعدة بصرية لليوزر */}
               <div
                 style={{ marginTop: "10px", fontSize: "0.8em", color: "#aaa" }}
               >
@@ -432,28 +473,7 @@ Respond with only ONE word:
               {isFrozen ? "Unfreeze" : "Freeze Time"}
             </button>
 
-            <button
-              className="btn-restart"
-              onClick={() => {
-                bombAudio.pause();
-                bombAudio.currentTime = 0;
-                cheerAudio.pause();
-                cheerAudio.currentTime = 0;
-
-                setTime(90);
-                setIsFrozen(false);
-                setUserAnswer("");
-                setIsCorrect(null);
-                setLog("System Rebooted.");
-                document.body.style.backgroundColor = "";
-                setIsExploding(false);
-                setIsWarning(false);
-                setUsedHint(false);
-                setIsCelebrating(false);
-                setIsLoading(false);
-                setCurrentChallenge(0); // اختياري: يرجعك لأول مستوى
-              }}
-            >
+            <button className="btn-restart" onClick={handleRestart}>
               Restart System
             </button>
           </div>
