@@ -1,61 +1,70 @@
+/* Full-screen warning overlay container */
 .warning-container {
-    position: fixed;
+    position: fixed; /* Fixes the container on the screen */
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: flex; /* Center content horizontally and vertically */
     align-items: center; 
     justify-content: center; 
     padding: 1.5rem; 
-    z-index: 50;
+    z-index: 50; /* Ensures overlay appears above other elements */
 }
 
+/* Main content inside the warning overlay */
 .warning-content {
     text-align: center; 
-    color: white; 
+    color: white; /* Text color */
 }
+
+/* Monitor icon displayed in the warning */
 .monitor-icon {
     width: 5rem;  
     height: 5rem; 
 }
 
-
+/* Wrapper for the monitor icon to center it and add spacing */
 .monitor-wrapper {
     margin-bottom: 2rem;
     display: flex;
     justify-content: center;
 }
+
+/* Warning title styling */
 .warning-title {
     font-size: 1.875rem; 
     font-weight: 700; 
     margin-bottom: 1rem; 
 }
 
+/* Main warning message text */
 .warning-text {
     font-size: 1.125rem;
     margin-bottom: 0.5rem;
-    opacity: 0.9; 
+    opacity: 0.9; /* Slightly faded for softer appearance */
 }
 
+/* Subtext under the main warning text */
 .warning-subtext {
     font-size: 0.875rem; 
-    opacity: 0.75;
+    opacity: 0.75; /* More faded to indicate secondary importance */
 }
 
-
+/* Container for animated dots */
 .dot-container {
     margin-top: 2rem;
     display: flex;
     justify-content: center; 
-    gap: 0.5rem; 
+    gap: 0.5rem; /* Space between each dot */
 }
 
+/* Individual dot styling for pulse animation */
 .pulse-dot {
     width: 0.75rem; 
     height: 0.75rem; 
     background-color: white; 
-    border-radius: 9999px;
+    border-radius: 9999px; /* Makes the dot fully round */
 }
