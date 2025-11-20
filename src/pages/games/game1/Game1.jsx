@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./Game1.css";
 import Navbar from "../../../Components/Navbar";
 import Footer from "../../../Components/Footer";
@@ -7,222 +8,201 @@ import bombSound from "../../../assets/bomb-sound.wav";
 import bombImg from "../../../assets/bomb.webp";
 import explosionImg from "../../../assets/explosion.webp";
 
+// --- إعدادات الـ AI ---
+const JUDGE_ENDPOINT = "/api/judge"; // تأكد ان ملف الـ backend موجود في المسار ده
+
+const LANGUAGES = [
+  { id: 71, name: "Python 3" },
+  { id: 63, name: "JavaScript (Node.js)" },
+  { id: 50, name: "C++ (GCC)" },
+  { id: 51, name: "C# (Mono)" },
+  { id: 62, name: "Java (OpenJDK)" },
+  { id: 60, name: "Go" },
+];
+
 export default function GameOne() {
-  const [language, setLanguage] = useState("");
+  // State
+  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[1].id); // Default JS
   const [currentChallenge, setCurrentChallenge] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [time, setTime] = useState(90);
   const [isFrozen, setIsFrozen] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
-  const [log, setLog] = useState("Initializing...");
+  const [log, setLog] = useState("System initialized. Waiting for code...");
   const [isExploding, setIsExploding] = useState(false);
   const [isWarning, setIsWarning] = useState(false);
   const [usedHint, setUsedHint] = useState(false);
   const [isCelebrating, setIsCelebrating] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // عشان نمنع التكرار وقت التحميل
 
   const cheerAudio = new Audio(cheerSound);
   const bombAudio = new Audio(bombSound);
 
+  // --- بيانات التحديات (تم تعديلها لتناسب الـ AI) ---
   const challenges = [
     {
-      question: "Return factorial recursively",
-      answer: "function factorial(n){return n<=1?1:n*factorial(n-1);}",
-      hint: "Use recursion: function calls itself until n=1.",
+      question: "Write a function that returns the factorial of n.",
+      hint: "Use recursion or a loop. Factorial of 5 is 120.",
+      testCase: { input: "n = 5", expected: "120" },
     },
     {
-      question: "Check if two strings are anagrams",
-      answer:
-        "function isAnagram(a,b){return a.split('').sort().join('')===b.split('').sort().join('');}",
+      question: "Check if two strings are anagrams (return boolean).",
       hint: "Sort both strings and compare them.",
+      testCase: { input: '("listen", "silent")', expected: "true" },
     },
     {
-      question: "Find the nth Fibonacci number (recursive)",
-      answer:
-        "function fibonacci(n){return n<=1?n:fibonacci(n-1)+fibonacci(n-2);}",
-      hint: "F(n) = F(n-1) + F(n-2",
+      question: "Find the nth Fibonacci number.",
+      hint: "F(n) = F(n-1) + F(n-2). Start with 0, 1.",
+      testCase: { input: "n = 7", expected: "13" },
     },
     {
-      question: "Return the second largest number in an array",
-      answer:
-        "function secondLargest(arr){return [...new Set(arr)].sort((a,b)=>b-a)[1];}",
-      hint: "Sort descending and take index 1.",
+      question: "Return the second largest number in an array.",
+      hint: "Sort the array in descending order and pick index 1.",
+      testCase: { input: "[10, 5, 20, 8]", expected: "10" },
     },
     {
-      question: "Check if a number is prime",
-      answer:
-        "function isPrime(n){if(n<2)return false;for(let i=2;i<=Math.sqrt(n);i++){if(n%i===0)return false;}return true;}",
-      hint: "Try dividing by all numbers up to √n.",
+      question: "Check if a number is prime (return boolean).",
+      hint: "Loop from 2 to sqrt(n).",
+      testCase: { input: "7", expected: "true" },
     },
     {
-      question: "Find longest substring without repeating characters",
-      answer:
-        "function longestUniqueSubstring(s){let set=new Set(),l=0,maxLen=0;for(let r=0;r<s.length;r++){while(set.has(s[r])){set.delete(s[l]);l++;}set.add(s[r]);maxLen=Math.max(maxLen,r-l+1);}return maxLen;}",
-      hint: "Use a sliding window and a set to track unique characters.",
+      question:
+        "Find the length of the longest substring without repeating characters.",
+      hint: "Use a sliding window technique.",
+      testCase: { input: '"abcabcbb"', expected: "3" },
     },
     {
-      question: "Flatten a nested array recursively",
-      answer:
-        "function flatten(arr){return arr.reduce((acc,e)=>acc.concat(Array.isArray(e)?flatten(e):e),[]);}",
-      hint: "Use recursion and reduce to merge nested arrays.",
+      question: "Flatten a nested array.",
+      hint: "Use recursion or built-in flat methods if available.",
+      testCase: { input: "[1, [2, [3, 4], 5]]", expected: "[1, 2, 3, 4, 5]" },
     },
     {
-      question: "Find all even numbers in an array",
-      answer:
-        "function findEvenNumbers(array){return array.filter(num => num % 2 === 0);}",
-      hint: "Use the filter() method to get even numbers.",
+      question: "Filter an array to return only even numbers.",
+      hint: "Use the modulo operator % 2 === 0.",
+      testCase: { input: "[1, 2, 3, 4, 5, 6]", expected: "[2, 4, 6]" },
     },
     {
-      question: "Reverse words in a sentence but keep word order",
-      answer:
-        "function reverseWords(sentence){return sentence.split(' ').map(w=>w.split('').reverse().join('')).join(' ');}",
-      hint: "Split sentence by spaces, reverse each word, then join.",
-    },
-    {
-      question: "Implement debounce function",
-      answer:
-        "function debounce(func,delay){let timeoutId;return function(...args){clearTimeout(timeoutId);setTimeout(()=>func.apply(this,args),delay);};}",
-      hint: "Use setTimeout and clearTimeout to delay execution.",
+      question: "Reverse words in a sentence maintaining word order.",
+      hint: "Split by space, reverse each word, join by space.",
+      testCase: { input: '"Hello World"', expected: '"olleH dlroW"' },
     },
   ];
 
+  // --- 1. منطق الانفجار (3 ثواني) ---
   useEffect(() => {
     if (isExploding) {
-      setIsFrozen(true); // نوقف الوقت أول ما تنفجر
-
+      setIsFrozen(true);
       const timer = setTimeout(() => {
-        setIsExploding(false); // وقف الانفجار
-        document.body.style.backgroundColor = ""; // رجع الخلفية
-
-        // التعديل هنا: لو لسه فيه وقت (يعني دي مجرد إجابة غلط)، كمل اللعب أوتوماتيك
+        setIsExploding(false);
+        document.body.style.backgroundColor = "";
+        // لو لسه فيه وقت، فك التجميد عشان اليوزر يكمل
         if (time > 0) {
           setIsFrozen(false);
         }
-        // أما لو الوقت 0 (Game Over)، خليها Frozen زي ما هي عشان ميقدرش يكتب
       }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, [isExploding, time]);
 
   // --- 2. منطق عداد الوقت ---
   useEffect(() => {
-    // لو اللعبة واقفة أو بتنفجر أو كسبان -> متعدش وقت
-    if (isFrozen || isExploding || isCelebrating) return;
+    if (isFrozen || isExploding || isCelebrating || isLoading) return;
 
     if (time > 0) {
       if (time <= 10) setIsWarning(true);
-      else setIsWarning(false); // عشان لو عمل ريستارت التحذير يروح
+      else setIsWarning(false);
 
       const timer = setTimeout(() => setTime((prev) => prev - 1), 1000);
       return () => clearTimeout(timer);
     } else {
       // الوقت خلص
       if (!isExploding) {
-        // عشان ميعملش Loop انفجار
         setIsCorrect(false);
-        setLog("Time's up");
+        setLog("Time's up! System Failure.");
         setIsExploding(true);
         bombAudio.play();
       }
     }
-  }, [time, isFrozen, isExploding, isCelebrating]);
-
-  // --- Logic 2: Game Timer ---
-  useEffect(() => {
-    if (isFrozen || isExploding || isCelebrating) return;
-    if (time > 0) {
-      if (time <= 10) setIsWarning(true);
-      const timer = setTimeout(() => setTime(time - 1), 1000);
-      return () => clearTimeout(timer);
-    } else {
-      setIsCorrect(false);
-      setLog("Time's up");
-      setIsExploding(true);
-      bombAudio.play();
-    }
-  }, [time, isFrozen, isExploding, isCelebrating]);
+  }, [time, isFrozen, isExploding, isCelebrating, isLoading]);
 
   const formatTime = (t) => `00:${t.toString().padStart(2, "0")}`;
 
-  const handleSubmit = () => {
-    // --- Logic 3: Prevent Submit if Time is up, Exploding, or Won ---
-    if (time === 0 || isExploding || isCelebrating) return;
+  // --- 3. بناء الـ Prompt للذكاء الاصطناعي ---
+  const buildJudgePrompt = (code, langName, details) => {
+    return `
+You are an automated coding judge. Your task is to mentally execute or rigorously simulate the provided code based on the given test case and determine whether the final output exactly matches the expected output.
+
+### Challenge
+${details.question}
+
+### Language
+${langName}
+
+### User Code
+\`\`\`
+${code}
+\`\`\`
+
+### Test Case Input
+\`\`\`
+${details.testCase.input}
+\`\`\`
+
+### Expected Output
+\`\`\`
+${details.testCase.expected}
+\`\`\`
+
+### JUDGING RULES
+1. **Language Mismatch is an Automatic FAIL:** The code must be written in the language specified in the ### Language tag.
+2. Simulate or execute the code exactly as the specified language behaves.
+3. If the code would result in any error or incorrect output, the verdict is **FAIL**.
+4. Comparison must be logical and exact.
+
+### Final Response
+Respond with only ONE word:
+- PASS — if the output matches correctly.
+- FAIL — otherwise.
+    `.trim();
+  };
+
+  // --- 4. دالة الإرسال (Handle Submit) ---
+  const handleSubmit = async () => {
+    // شروط المنع
+    if (time === 0 || isExploding || isCelebrating || isLoading) return;
+    if (!userAnswer.trim()) {
+      setLog("Please write some code first.");
+      return;
+    }
+
+    setIsLoading(true);
+    setLog("Analyzing code with AI...");
+    setIsCorrect(null); // Reset status color
 
     try {
-      let correct = false;
-      const funcStr = userAnswer;
+      const currentChallengeData = challenges[currentChallenge];
+      const selectedLangName =
+        LANGUAGES.find((l) => l.id == selectedLanguage)?.name || "Unknown";
 
-      switch (currentChallenge) {
-        case 0: {
-          const testFunc = new Function("return " + funcStr)();
-          correct = testFunc(5) === 120 && testFunc(0) === 1;
-          break;
-        }
-        case 1: {
-          const testFunc = new Function("return " + funcStr)();
-          correct =
-            testFunc("listen", "silent") === true &&
-            testFunc("hello", "world") === false;
-          break;
-        }
-        case 2: {
-          const testFunc = new Function("return " + funcStr)();
-          correct =
-            testFunc(7) === 13 && testFunc(0) === 0 && testFunc(1) === 1;
-          break;
-        }
-        case 3: {
-          const testFunc = new Function("return " + funcStr)();
-          correct = testFunc([5, 1, 9, 7, 9]) === 7;
-          break;
-        }
-        case 4: {
-          const testFunc = new Function("return " + funcStr)();
-          correct =
-            testFunc(7) === true &&
-            testFunc(8) === false &&
-            testFunc(2) === true;
-          break;
-        }
-        case 5: {
-          const testFunc = new Function("return " + funcStr)();
-          correct = testFunc("abcabcbb") === 3 && testFunc("bbbbb") === 1;
-          break;
-        }
-        case 6: {
-          const testFunc = new Function("return " + funcStr)();
-          correct =
-            JSON.stringify(testFunc([1, [2, [3, 4]], 5])) ===
-            JSON.stringify([1, 2, 3, 4, 5]);
-          break;
-        }
-        case 7: {
-          const testFunc = new Function("return " + funcStr)();
-          correct =
-            JSON.stringify(testFunc([1, 2, 3, 4, 5, 6])) ===
-            JSON.stringify([2, 4, 6]);
-          break;
-        }
-        case 8: {
-          const testFunc = new Function("return " + funcStr)();
-          correct = testFunc("Hello world") === "olleH dlrow";
-          break;
-        }
-        case 9: {
-          const testFunc = new Function("return " + funcStr)();
-          const debounced = testFunc(() => "ok", 100);
-          correct = typeof debounced === "function";
-          break;
-        }
-        default:
-          correct = false;
-      }
+      // بناء الرسالة
+      const prompt = buildJudgePrompt(
+        userAnswer,
+        selectedLangName,
+        currentChallengeData
+      );
 
-      setIsCorrect(correct);
-      setLog(correct ? " Correct!" : " Incorrect!");
+      // إرسال الطلب
+      const response = await axios.post(JUDGE_ENDPOINT, { prompt });
+      const verdict = response.data.verdict; // المفروض يرجع PASS أو FAIL
 
-      if (correct) {
+      setIsLoading(false);
+
+      if (verdict && verdict.includes("PASS")) {
+        // --- إجابة صحيحة ---
+        setIsCorrect(true);
+        setLog("Access Granted! Code Valid.");
         cheerAudio.play();
+
         setTimeout(() => {
           const next = currentChallenge + 1;
           if (next < challenges.length) {
@@ -230,46 +210,33 @@ export default function GameOne() {
             setTime(90);
             setUserAnswer("");
             setIsCorrect(null);
-            setLog("Next challenge...");
+            setLog("Next challenge loaded...");
             setIsExploding(false);
             setUsedHint(false);
             document.body.style.backgroundColor = "";
           } else {
-            setLog(
-              "Congratulations, Explosion of Victory, All Challenges Neutralized"
-            );
+            setLog("Mission Accomplished! System Secured.");
             setIsCelebrating(true);
             document.body.style.backgroundColor = "var(--Green)";
             cheerAudio.play();
           }
-        }, 1000);
+        }, 1500);
       } else {
-        setIsExploding(true);
-        document.body.style.backgroundColor = "var(--Red)";
-        bombAudio.play();
+        // --- إجابة خاطئة ---
+        throw new Error("Wrong Answer");
       }
-    } catch {
+    } catch (error) {
+      setIsLoading(false);
       setIsCorrect(false);
-      setLog("Error in your code");
+      setLog("Access Denied! Invalid Code.");
       setIsExploding(true);
       document.body.style.backgroundColor = "var(--Red)";
       bombAudio.play();
+      console.error("Submission error:", error);
     }
   };
 
-  if (!language) {
-    return (
-      <>
-        <Navbar />
-        <div className="choose-language">
-          <h2>Choose the challenge language</h2>
-          <button onClick={() => setLanguage("C++")}>C++</button>
-          <button onClick={() => setLanguage("JavaScript")}>JavaScript</button>
-        </div>
-        <Footer />
-      </>
-    );
-  }
+  // ملاحظة: شلت الـ return اللي كان بيطلب اللغة في البداية، دلوقتي اللغة بتختارها من جوا
 
   return (
     <>
@@ -281,38 +248,110 @@ export default function GameOne() {
 
         <div className="game-layout">
           <div className="console">
-            <h3>ADVANCED CODING CHALLENGE ({language})</h3>
+            <div
+              className="console-header"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <h3>CODING CHALLENGE</h3>
+            </div>
+            <div>
+              {/* --- قائمة اختيار اللغة --- */}
+              <select
+                value={selectedLanguage}
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+                disabled={isLoading || isExploding}
+                style={{
+                  background: "#222",
+                  color: "var(--Cyan)",
+                  border: "1px solid var(--Cyan)",
+                  padding: "5px 10px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  fontFamily: "monospace",
+                }}
+              >
+                {LANGUAGES.map((lang) => (
+                  <option key={lang.id} value={lang.id}>
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <pre className="challenge">
               {challenges[currentChallenge].question}
+              {/* عرض Test Case كمساعدة بصرية لليوزر */}
+              <div
+                style={{ marginTop: "10px", fontSize: "0.8em", color: "#aaa" }}
+              >
+                Input: {challenges[currentChallenge].testCase.input} | Expected:{" "}
+                {challenges[currentChallenge].testCase.expected}
+              </div>
             </pre>
 
             <textarea
               value={userAnswer}
               onChange={(e) => setUserAnswer(e.target.value)}
-              placeholder="Write your answer here..."
+              placeholder={`// Write your ${
+                LANGUAGES.find((l) => l.id == selectedLanguage)?.name
+              } solution here...`}
+              disabled={isLoading || isExploding || isCelebrating}
+              style={{ opacity: isLoading ? 0.7 : 1 }}
             />
 
             <div className="buttons">
               <button
                 onClick={handleSubmit}
                 className="btn-correct"
-                // --- Logic 3: Disable Button Visuals ---
-                disabled={time === 0 || isExploding || isCelebrating}
+                disabled={
+                  time === 0 || isExploding || isCelebrating || isLoading
+                }
                 style={{
-                  opacity: time === 0 || isExploding || isCelebrating ? 0.5 : 1,
+                  opacity:
+                    time === 0 || isExploding || isCelebrating || isLoading
+                      ? 0.5
+                      : 1,
                   cursor:
-                    time === 0 || isExploding || isCelebrating
+                    time === 0 || isExploding || isCelebrating || isLoading
                       ? "not-allowed"
                       : "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
                 }}
               >
-                Submit
+                {isLoading ? "Analyzing..." : "Submit Solution"}
+                {isLoading && (
+                  <div
+                    className="spinner"
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      border: "2px solid #fff",
+                      borderTopColor: "transparent",
+                      borderRadius: "50%",
+                      animation: "spin 1s linear infinite",
+                    }}
+                  ></div>
+                )}
               </button>
             </div>
 
-            {isCorrect !== null && (
-              <p style={{ color: isCorrect ? "var(--Green)" : "var(--Red)" }}>
-                {isCorrect ? "Correct" : "Incorrect"}
+            {isCorrect !== null && !isLoading && (
+              <p
+                style={{
+                  color: isCorrect ? "var(--Green)" : "var(--Red)",
+                  fontWeight: "bold",
+                  marginTop: "10px",
+                }}
+              >
+                {isCorrect ? "PASSED" : "FAILED"}
               </p>
             )}
           </div>
@@ -334,6 +373,7 @@ export default function GameOne() {
 
             <button
               className="btn-hint"
+              disabled={isLoading || isExploding}
               onClick={() => {
                 if (!usedHint) {
                   setUsedHint(true);
@@ -344,7 +384,6 @@ export default function GameOne() {
               Show Hint (-20s)
             </button>
 
-            {/* --- Visual: Hint moved here --- */}
             {usedHint && (
               <p
                 className="hint-text"
@@ -363,6 +402,7 @@ export default function GameOne() {
 
             <button
               className="btn-freeze"
+              disabled={isLoading || isExploding}
               onClick={() => setIsFrozen(!isFrozen)}
             >
               {isFrozen ? "Unfreeze" : "Freeze Time"}
@@ -380,19 +420,17 @@ export default function GameOne() {
                 setIsFrozen(false);
                 setUserAnswer("");
                 setIsCorrect(null);
-                setLog("Retry the challenge...");
+                setLog("System Rebooted.");
                 document.body.style.backgroundColor = "";
                 setIsExploding(false);
                 setIsWarning(false);
                 setUsedHint(false);
                 setIsCelebrating(false);
+                setIsLoading(false);
+                setCurrentChallenge(0); // اختياري: يرجعك لأول مستوى
               }}
             >
-              Restart
-            </button>
-
-            <button className="btn-back" onClick={() => setLanguage("")}>
-              Change Language
+              Restart System
             </button>
           </div>
         </div>
@@ -426,13 +464,14 @@ export default function GameOne() {
                 }}
               ></div>
             ))}
-            <h1>
-              Congratulations, Explosion of Victory, All Challenges Neutralized.
-            </h1>
+            <h1>Congratulations! Threat Neutralized.</h1>
           </div>
         )}
       </div>
       <Footer />
+      <style>{`
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      `}</style>
     </>
   );
 }
