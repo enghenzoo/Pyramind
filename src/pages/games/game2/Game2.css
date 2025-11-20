@@ -42,7 +42,7 @@
   height: 100vh;
   overflow: hidden;
   position: relative;
-  background-image: url("../../../assets/game2-background.jpg");
+  background-image: url("../../../assets/back-ground.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -92,4 +92,17 @@
 
 .back-arrow:hover {
   transform: scale(1.2);
+}
+
+.controls-instruction {
+  position: absolute;
+  top: 20px; /* المسافة من الأعلى */
+  left: 50%; /* لجعله في المنتصف أفقياً */
+  transform: translateX(-50%); /* لضبط التوسط بدقة */
+  color: white; /* لون النص (غيره حسب خلفية لعبتك) */
+  font-size: 20px; /* حجم الخط */
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* ظل للنص ليظهر بوضوح فوق الخلفية */
+  z-index: 100; /* لضمان ظهوره فوق اللعبة */
+  pointer-events: none; /* لكي لا يمنع الضغط على الأشياء تحته */
 }

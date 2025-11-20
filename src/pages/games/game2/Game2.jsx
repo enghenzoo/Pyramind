@@ -456,6 +456,10 @@ function GameTwo() {
         <FaArrowLeft />
       </div>
 
+      <div className="controls-instruction">
+        Use Arrows to move {"->"} {"<-"}
+      </div>
+
       <div className="viewport">
         <div
           className="game2-container"
