@@ -1,82 +1,89 @@
-/* Hero */
+/* ================= Hero Section ================= */
 .hero {
-    position: relative;
-    text-align: center;
-    background: url("../../assets/Back-Ground-img.webp") center/cover no-repeat;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    width: 100vw;
-    margin: 0;
+    position: relative; /* relative positioning for pseudo-element overlay */
+    text-align: center; /* center text horizontally */
+    background: url("../../assets/Back-Ground-img.webp") center/cover no-repeat; /* background image with center alignment and cover */
+    min-height: 100vh; /* take full viewport height */
+    display: flex; /* use flexbox */
+    flex-direction: column; /* stack items vertically */
+    justify-content: center; /* center items vertically */
+    align-items: center; /* center items horizontally */
+    padding: 20px; /* padding inside container */
+    width: 100vw; /* full width */
+    margin: 0; /* remove default margin */
 }
 
+/* Overlay effect for hero section */
 .hero::before {
-    content: "";
-    position: absolute;
+    content: ""; /* required for pseudo-element */
+    position: absolute; /* absolute positioning over the hero */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(60, 0, 100, 0.3);
-    z-index: 0;
+    width: 100%; /* full width */
+    height: 100%; /* full height */
+    background-color: rgba(60, 0, 100, 0.3); /* semi-transparent overlay */
+    z-index: 0; /* behind content */
 }
 
+/* Make all child elements appear above overlay */
 .hero * {
-    position: relative;
-    z-index: 1;
+    position: relative; /* relative to parent for stacking */
+    z-index: 1; /* above overlay */
 }
 
+/* Hero main title */
 .hero h1 {
-    font-weight: 900;
-    font-size: 5rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--White);
+    font-weight: 900; /* bold */
+    font-size: 5rem; /* large font size */
+    letter-spacing: 3px; /* spacing between letters */
+    text-transform: uppercase; /* all caps */
+    color: var(--White); /* white color */
     text-shadow: 0 0 10px var(--Deep-Pink), 0 0 20px var(--Deep-Pink),
-        0 0 40px var(--Deep-Pink), 0 0 80px var(--Deep-Pink);
-    animation: glowPulse 2s infinite alternate;
-    margin: 0;
+        0 0 40px var(--Deep-Pink), 0 0 80px var(--Deep-Pink); /* neon glow effect */
+    animation: glowPulse 2s infinite alternate; /* neon pulsing animation */
+    margin: 0; /* remove default margin */
 }
 
+/* Hero subtitle */
 .hero h2 {
-    color: var(--Cyan);
-    font-weight: 600;
-    margin-top: 20px;
+    color: var(--Cyan); /* cyan color */
+    font-weight: 600; /* medium-bold */
+    margin-top: 20px; /* spacing from h1 */
     text-shadow: 0 0 10px var(--Cyan), 0 0 20px var(--Cyan),
-        0 0 40px var(--Cyan), 0 0 80px var(--Cyan);
-    margin-bottom: 0;
+        0 0 40px var(--Cyan), 0 0 80px var(--Cyan); /* neon glow */
+    margin-bottom: 0; /* remove bottom margin */
 }
 
+/* Hero paragraph */
 .hero p {
-    max-width: 700px;
-    margin: 30px auto;
-    color: var(--White);
-    font-size: 1.1rem;
-    line-height: 1.6;
+    max-width: 700px; /* limit text width */
+    margin: 30px auto; /* center with vertical spacing */
+    color: var(--White); /* white text */
+    font-size: 1.1rem; /* readable size */
+    line-height: 1.6; /* line spacing */
 }
 
-/* Buttons */
+/* ================= Hero Buttons ================= */
 .enter-btn {
-    background: transparent;
-    border: 2px solid var(--Deep-Pink);
-    color: var(--Deep-Pink);
-    font-weight: 700;
+    background: transparent; /* transparent background */
+    border: 2px solid var(--Deep-Pink); /* pink border */
+    color: var(--Deep-Pink); /* pink text */
+    font-weight: 700; /* bold */
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 0 15px var(--Deep-Pink);
-    transition: all 0.3s ease;
+    letter-spacing: 1px; /* spacing between letters */
+    box-shadow: 0 0 15px var(--Deep-Pink); /* neon shadow */
+    transition: all 0.3s ease; /* smooth hover effect */
 }
 
+/* Hover effect for enter button */
 .enter-btn:hover {
-    background: var(--Deep-Pink);
-    color: var(--White);
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px var(--Deep-Pink);
+    background: var(--Deep-Pink); /* pink background */
+    color: var(--White); /* white text */
+    transform: translateY(-3px); /* lift effect */
+    box-shadow: 0 0 25px var(--Deep-Pink); /* stronger shadow */
 }
 
+/* Learn button styling */
 .learn-btn {
     background: transparent;
     border: 2px solid var(--Cyan);
@@ -88,6 +95,7 @@
     transition: all 0.3s ease;
 }
 
+/* Hover effect for learn button */
 .learn-btn:hover {
     background: var(--Cyan);
     color: var(--White);
@@ -95,12 +103,13 @@
     box-shadow: 0 0 25px var(--Cyan);
 }
 
+/* Container for hero buttons */
 .hero-buttons {
     display: flex;
-    gap: 20px;
+    gap: 20px; /* spacing between buttons */
 }
 
-/* Neon Animation */
+/* ================= Neon Text Animation ================= */
 @keyframes glowPulse {
     0% {
         text-shadow: 0 0 10px var(--Deep-Pink), 0 0 20px var(--Cyan);
@@ -115,27 +124,28 @@
     }
 }
 
-/* Features Section */
+/* ================= Features Section ================= */
 .features-section {
-    padding: 80px 20px;
-    text-align: center;
+    padding: 80px 20px; /* spacing around section */
+    text-align: center; /* center text */
 }
 
 .section-title {
-    font-size: 2.5rem;
+    font-size: 2.5rem; /* large title */
     font-weight: 800;
     color: var(--Cyan);
-    text-shadow: 0 0 10px var(--Cyan);
+    text-shadow: 0 0 10px var(--Cyan); /* neon glow */
 }
 
 .features-container {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
+    flex-wrap: wrap; /* wrap on small screens */
+    gap: 30px; /* space between cards */
     margin-top: 40px;
 }
 
+/* Feature card styling */
 .feature-card {
     border: 1px solid var(--Cyan);
     border-radius: 15px;
@@ -143,17 +153,18 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Hover effect for feature card */
 .feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 25px var(--Cyan);
+    transform: translateY(-10px); /* lift card */
+    box-shadow: 0 0 25px var(--Cyan); /* glowing shadow */
 }
 
 .feature-icon {
-    font-size: 2.5rem;
+    font-size: 2.5rem; /* icon size */
     color: var(--Cyan);
 }
 
-/* Audience Section */
+/* ================= Audience Section ================= */
 .audience-cards {
     display: flex;
     justify-content: center;
@@ -173,7 +184,7 @@
     box-shadow: 0 0 25px var(--Cyan);
 }
 
-/* Community Section */
+/* ================= Community Section ================= */
 .community-buttons {
     display: flex;
     justify-content: center;
@@ -192,12 +203,12 @@
     box-shadow: 0 0 25px var(--Deep-Pink);
 }
 
-/* Final CTA */
+/* ================= Final CTA ================= */
 .final-cta {
     padding: 80px 20px;
 }
 
-/* Responsive */
+/* ================= Responsive ================= */
 @media (max-width: 1200px) {
     .hero h1 {
         font-size: 4rem;
@@ -242,7 +253,7 @@
     }
 
     .hero-buttons {
-        flex-direction: column;
+        flex-direction: column; /* stack buttons vertically */
         gap: 15px;
     }
 }
@@ -261,4 +272,5 @@
         max-width: 90%;
     }
 }
+
 
