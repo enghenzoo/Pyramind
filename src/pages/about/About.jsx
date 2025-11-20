@@ -94,6 +94,7 @@ const About = () => {
               </p>
             </div>
 
+            
             {/* <div className="card pink" key="backend-card">
               <FaServer size={28} color="white" />
               <h4>BACK-END</h4>
