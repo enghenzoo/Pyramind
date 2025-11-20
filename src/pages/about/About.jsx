@@ -1,7 +1,8 @@
 import React from "react";
-import Navbar from "../../Components/Navbar";
-import Footer from "../../Components/Footer";
+import Navbar from "../../Components/Navbar"; // Navbar component
+import Footer from "../../Components/Footer"; // Footer component
 
+// Import icons from react-icons
 import {
   FaLaptopCode,
   FaServer,
@@ -9,16 +10,16 @@ import {
   FaUsers,
   FaBolt,
 } from "react-icons/fa";
-import "./About.css";
-import { Link } from "react-router-dom";
+import "./About.css"; // About page styles
+import { Link } from "react-router-dom"; // Link component for navigation
 
 const About = () => {
   return (
     <main className="home-page text-light">
-      <Navbar />
+      <Navbar /> {/* Display Navbar */}
 
       <div className="container">
-        {/* Landing Section */}
+        {/* Landing Section with game name and tagline */}
         <div className="landing-container">
           <h1 className="about-title">PyraMind</h1>
           <h2 className="about-subtitle">
@@ -26,7 +27,7 @@ const About = () => {
           </h2>
         </div>
 
-        {/* Game Description */}
+        {/* Game Description Section */}
         <section id="description" className="about-section">
           <h3 className="about-section-title">GAME DESCRIPTION</h3>
           <p>
@@ -37,21 +38,22 @@ const About = () => {
           </p>
         </section>
 
-        {/* Vision */}
+        {/* Vision Section */}
         <section className="about-section">
           <h3 className="about-section-title">VISION</h3>
           <p>
             Our goal is to create a game that’s not only fun but also
-            intellectually stimulating a game that helps players improve their
+            intellectually stimulating—a game that helps players improve their
             logical thinking, strategy planning, and cognitive skills while
             enjoying every moment.
           </p>
         </section>
 
-        {/* Key Features */}
+        {/* Key Features Section */}
         <section id="features" className="about-section">
           <h3 className="about-section-title">KEY FEATURES</h3>
           <div className="about-cards">
+            {/* Puzzle feature card */}
             <div className="card cyan" key="puzzle-card">
               <FaPuzzlePiece size={28} color="white" />
               <h4>Challenging Puzzles</h4>
@@ -61,6 +63,7 @@ const About = () => {
               </p>
             </div>
 
+            {/* Time challenge feature card */}
             <div className="card pink" key="challenges-card">
               <FaBolt size={28} color="white" />
               <h4>Time-based Challenges</h4>
@@ -70,6 +73,7 @@ const About = () => {
               </p>
             </div>
 
+            {/* Community play feature card */}
             <div className="card cyan" key="community-card">
               <FaUsers size={28} color="white" />
               <h4>Community Play</h4>
@@ -81,10 +85,11 @@ const About = () => {
           </div>
         </section>
 
-        {/* Technology */}
+        {/* Technology Section */}
         <section className="about-section">
           <h3 className="about-section-title">TECHNOLOGY</h3>
           <div className="about-cards">
+            {/* Frontend card */}
             <div className="card cyan" key="frontend-card">
               <FaLaptopCode size={28} color="white" />
               <h4>FRONT-END</h4>
@@ -94,6 +99,7 @@ const About = () => {
               </p>
             </div>
 
+            {/* Backend card is commented out for now */}
             {/* <div className="card pink" key="backend-card">
               <FaServer size={28} color="white" />
               <h4>BACK-END</h4>
@@ -105,7 +111,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Target Audience */}
+        {/* Target Audience Section */}
         <section className="about-section">
           <h3 className="about-section-title">TARGET AUDIENCE</h3>
           <p>
@@ -123,7 +129,7 @@ const About = () => {
         </div>
       </div>
 
-      <Footer />
+      <Footer /> {/* Display Footer */}
     </main>
   );
 };
