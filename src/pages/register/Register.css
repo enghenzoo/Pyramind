@@ -1,3 +1,4 @@
+/* Wrapper around the whole register/login form */
 .register-wrapper {
     display: flex;
     align-items: center;
@@ -6,6 +7,7 @@
     padding: 20px;
 }
 
+/* The main form box */
 .register-box {
     background: linear-gradient(to right, #2C5364, #1A1A2E, #3A3A66);
     border: 1px solid var(--Deep-Pink);
@@ -17,6 +19,7 @@
     text-align: center;
 }
 
+/* Heading of the form */
 .register-box h1 {
     font-size: 20px;
     color: var(--Deep-Pink);
@@ -29,17 +32,20 @@
     margin-bottom: 10px;
 }
 
+/* Subtitle under the heading */
 .subtitle {
     font-size: 14px;
     color: var(--White);
     margin-bottom: 20px;
 }
 
+/* Individual form groups (label + input) */
 .form-group {
     margin-bottom: 15px;
     text-align: left;
 }
 
+/* Label styling */
 .form-group label {
     font-size: 14px;
     color: var(--Cyan);
@@ -47,6 +53,7 @@
     margin-bottom: 5px;
 }
 
+/* Input fields styling */
 .form-group input {
     width: 100%;
     max-width: 330px;
@@ -62,11 +69,13 @@
     margin: 0 auto;
 }
 
+/* Input focus effect */
 .form-group input:focus {
     border-color: var(--Cyan);
     box-shadow: 0 0 10px var(--Cyan);
 }
 
+/* Submit button styling */
 .submit-btn {
     width: 100%;
     padding: 10px;
@@ -82,6 +91,7 @@
     transition: 0.3s;
 }
 
+/* Hover effect for submit button */
 .submit-btn:hover {
     box-shadow: 0 0 7px var(--Deep-Pink),
         0 0 7px var(--Deep-Pink),
@@ -89,28 +99,16 @@
     animation: shake 0.4s infinite;
 }
 
+/* Shake animation for submit button hover */
 @keyframes shake {
-    0% {
-        transform: translate(0, 0) scale(1.05);
-    }
-
-    25% {
-        transform: translate(-3px, 3px) scale(1.05);
-    }
-
-    50% {
-        transform: translate(3px, -3px) scale(1.05);
-    }
-
-    75% {
-        transform: translate(-3px, -3px) scale(1.05);
-    }
-
-    100% {
-        transform: translate(0, 0) scale(1.05);
-    }
+    0% { transform: translate(0, 0) scale(1.05); }
+    25% { transform: translate(-3px, 3px) scale(1.05); }
+    50% { transform: translate(3px, -3px) scale(1.05); }
+    75% { transform: translate(-3px, -3px) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1.05); }
 }
 
+/* Divider styling between form and social login */
 .divider {
     text-align: center;
     margin: 20px 0;
@@ -118,6 +116,7 @@
     position: relative;
 }
 
+/* Text inside the divider */
 .divider span {
     padding: 0 10px;
     font-size: 10px;
@@ -125,6 +124,7 @@
     z-index: 2;
 }
 
+/* Divider lines before and after the text */
 .divider span::before,
 .divider span::after {
     content: "";
@@ -135,20 +135,17 @@
     background: var(--Dark-Gray);
 }
 
-.divider span::before {
-    right: 100%;
-}
+.divider span::before { right: 100%; }
+.divider span::after { left: 100%; }
 
-.divider span::after {
-    left: 100%;
-}
-
+/* Social login buttons container */
 .social-register {
     display: flex;
     justify-content: space-between;
     gap: 10px;
 }
 
+/* Google login button */
 .google-btn {
     flex: 1;
     padding: 10px;
@@ -160,6 +157,7 @@
     transition: 0.3s;
 }
 
+/* GitHub login button */
 .github-btn {
     flex: 1;
     padding: 10px;
@@ -171,32 +169,34 @@
     transition: 0.3s;
 }
 
+/* Hover effect for Google button */
 .google-btn:hover {
     background: rgba(0, 224, 255, 0.1);
     box-shadow: 0 0 5px var(--Cyan);
 }
 
-.github-btn {
-    border-color: var(--Deep-Pink);
-}
-
+/* Hover effect for GitHub button */
 .github-btn:hover {
     background: rgba(255, 0, 204, 0.1);
     box-shadow: 0 0 5px var(--Deep-Pink);
 }
 
+/* Subtitle under social buttons */
 .subtitle2 {
     color: var(--Dark-Gray);
     font-size: 14px;
 }
 
+/* Links inside subtitle */
 .subtitle2 a {
     color: var(--Cyan);
     text-decoration: none;
 }
 
+/* Footer of the page */
 .site-footer {
     text-align: center;
     color: var(--White);
     font-size: 13px;
 }
+
