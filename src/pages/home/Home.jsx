@@ -61,7 +61,7 @@ export default function Home() {
             <FaCode className="feature-icon mb-3" />
             <h5>Multi-Language Support</h5>
             <p>
-              Test your skills in languages like Python, JavaScript, and C++.
+              Test your skills in languages like Python, JavaScript, C, Go and C++.
             </p>
           </div>
           <div className="feature-card p-4">
@@ -113,19 +113,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      {/* <section id="cta" className="final-cta py-5 text-center">
-        <h2 className="section-title mb-4">
-          Are you ready to hack the PyraMind?
-        </h2>
-        <div className="d-flex justify-content-center gap-4 flex-wrap">
-          <button className="btn enter-btn px-4 py-2 fw-bold">
-            <FaPlay className="me-2" /> ENTER THE GRID
-          </button>
-        </div>
-      </section> */}
-
       <Footer />
     </div>
   );
 }
+
