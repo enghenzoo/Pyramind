@@ -114,10 +114,10 @@ Respond with only ONE word:
         const judgeResponseText = response.data.verdict; 
         
         if (judgeResponseText === "PASS") {
-            setSubmissionStatus("Correct! ✅");
+            setSubmissionStatus("Correct");
             onSolved();
         } else {
-            setSubmissionStatus(`Wrong Answer ❌`);
+            setSubmissionStatus(`Wrong Answer`);
             onWrongAnswer();
         }
         
