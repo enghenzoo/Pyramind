@@ -166,7 +166,29 @@ Respond with only ONE word:
     `.trim();
   };
 
-  // --- 4. دالة الإرسال (Handle Submit) ---
+// --- دالة مساعدة للمحاولة 3 مرات في حالة خطأ السيرفر ---
+  const fetchVerdictWithRetry = async (prompt, retries = 3, delay = 1000) => {
+    try {
+      const response = await axios.post(JUDGE_ENDPOINT, { prompt });
+      return response.data.verdict;
+    } catch (error) {
+      // لو لسه فاضل محاولات + الخطأ من السيرفر (5xx) أو مشكلة شبكة
+      if (retries > 0 && (!error.response || error.response.status >= 500)) {
+        // تحديث اللوج لليوزر عشان يعرف إننا بنحاول تاني
+        setLog(`Server busy. Retrying in ${delay / 1000}s...`);
+        
+        // انتظار (Delay)
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        
+        // محاولة مرة أخرى مع زيادة وقت الانتظار (Exponential Backoff)
+        return fetchVerdictWithRetry(prompt, retries - 1, delay * 2);
+      }
+      // لو خلصت المحاولات ارمي الإيرور
+      throw error;
+    }
+  };
+
+  // --- 4. دالة الإرسال (Handle Submit) المعدلة ---
   const handleSubmit = async () => {
     // شروط المنع
     if (time === 0 || isExploding || isCelebrating || isLoading) return;
@@ -177,23 +199,15 @@ Respond with only ONE word:
 
     setIsLoading(true);
     setLog("Analyzing code with AI...");
-    setIsCorrect(null); // Reset status color
+    setIsCorrect(null); 
 
     try {
       const currentChallengeData = challenges[currentChallenge];
-      const selectedLangName =
-        LANGUAGES.find((l) => l.id == selectedLanguage)?.name || "Unknown";
+      const selectedLangName = LANGUAGES.find((l) => l.id == selectedLanguage)?.name || "Unknown";
 
-      // بناء الرسالة
-      const prompt = buildJudgePrompt(
-        userAnswer,
-        selectedLangName,
-        currentChallengeData
-      );
+      const prompt = buildJudgePrompt(userAnswer, selectedLangName, currentChallengeData);
 
-      // إرسال الطلب
-      const response = await axios.post(JUDGE_ENDPOINT, { prompt });
-      const verdict = response.data.verdict; // المفروض يرجع PASS أو FAIL
+      const verdict = await fetchVerdictWithRetry(prompt); 
 
       setIsLoading(false);
 
@@ -221,18 +235,28 @@ Respond with only ONE word:
             cheerAudio.play();
           }
         }, 1500);
+
       } else {
-        // --- إجابة خاطئة ---
+        // --- إجابة خاطئة (AI قال FAIL) ---
         throw new Error("Wrong Answer");
       }
+
     } catch (error) {
       setIsLoading(false);
-      setIsCorrect(false);
-      setLog("Access Denied! Invalid Code.");
+      
+      // لو الخطأ "Wrong Answer" يعني الكود اشتغل بس غلط
+      if (error.message === "Wrong Answer") {
+          setIsCorrect(false);
+          setLog("Access Denied! Logic Incorrect.");
+      } else {
+          // لو الخطأ بسبب السيرفر أو الشبكة بعد استنفاد المحاولات
+          setLog("Connection Lost. System Overload.");
+          console.error("Submission error:", error);
+      }
+
       setIsExploding(true);
       document.body.style.backgroundColor = "var(--Red)";
       bombAudio.play();
-      console.error("Submission error:", error);
     }
   };
 
