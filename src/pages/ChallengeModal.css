@@ -1,53 +1,70 @@
+/* ===============================
+   Full-screen overlay for challenge popup
+   Blurs the background and centers the modal
+================================ */
 .gametwo-challenge-overlay {
   position: fixed;
-  inset: 0;
-  background: var(--overlay-bg);
+  inset: 0; /* Shortcut: top/right/bottom/left = 0 */
+  background: var(--overlay-bg); /* Semi-transparent dark overlay */
   -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); /* Glass blur effect */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 100; /* On top of game elements */
 }
 
+/* ===============================
+   Main challenge modal box
+   Contains the task, textarea, and buttons
+================================ */
 .gametwo-challenge-modal {
   width: 700px;
   background: linear-gradient(180deg, var(--brown-medium), var(--brown-dark));
   border: 2px solid var(--border-gold);
-  box-shadow: 0 0 30px var(--gold);
+  box-shadow: 0 0 30px var(--gold); /* Golden glowing effect */
   color: var(--light-gold-text);
   border-radius: 15px;
   padding: 30px;
   text-align: center;
-  position: relative;
+  position: relative; /* Needed for the timer inside */
 }
 
+/* Modal title (challenge title) */
 .gametwo-challenge-modal h2 {
   margin-bottom: 15px;
   color: var(--text-bright);
-  text-shadow: 0 0 10px var(--shadow-gold);
+  text-shadow: 0 0 10px var(--shadow-gold); /* Glow effect */
 }
 
+/* ===============================
+   Challenge textarea
+   Where the user types their answer
+================================ */
 .gametwo-textarea {
   width: 90%;
   height: 150px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.3); /* Dark transparent background */
   border: 1px solid var(--border-gold);
   border-radius: 10px;
-  color: #fff8dc;
+  color: #fff8dc; /* Soft golden-white text */
   font-size: 16px;
   padding: 10px;
   outline: none;
-  resize: none;
+  resize: none; /* Prevent resizing */
 }
 
+/* ===============================
+   Container for action buttons
+================================ */
 .gametwo-modal-controls {
   margin-top: 15px;
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 15px; /* spacing between buttons */
 }
 
+/* Base button style */
 .gametwo-challenge-modal button {
   padding: 10px 18px;
   border: none;
@@ -57,24 +74,31 @@
   color: var(--brown-text);
 }
 
+/* Submit button */
 .gametwo-submit-btn {
   background: linear-gradient(90deg, var(--gold), var(--gold-dark));
 }
 
+/* Hint/help button */
 .gametwo-hint-btn {
   background: linear-gradient(90deg, var(--amber), var(--gold-light));
 }
 
+/* Freeze timer / special ability button */
 .gametwo-freeze-btn {
   background: linear-gradient(90deg, #b97d00, var(--gold-soft));
 }
 
+/* Hint text shown under the buttons */
 .gametwo-hint {
   margin-top: 10px;
   color: var(--hint-color);
   font-style: italic;
 }
 
+/* ===============================
+   Timer text displayed inside modal
+================================ */
 .gametwo-timer {
   position: absolute;
   top: 10px;
@@ -84,6 +108,7 @@
   font-size: 18px;
 }
 
+/* Error message (wrong answer, empty field, etc.) */
 .gametwo-error {
   color: red;
   font-weight: bold;
