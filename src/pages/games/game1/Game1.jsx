@@ -391,7 +391,7 @@ Respond with only ONE word:
             {/* Hint Text */}
             {usedHint && (
               <p className="hint-text" style={{ color: "var(--Purple)", marginTop: "5px", fontSize: "0.9rem", marginBottom: "10px", borderBottom: "1px solid #444", paddingBottom: "5px" }}>
-                💡 {challenges[currentChallenge].hint}
+                {challenges[currentChallenge].hint}
               </p>
             )}
 
