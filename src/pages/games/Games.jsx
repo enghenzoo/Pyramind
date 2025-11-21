@@ -7,7 +7,8 @@ import "./Games.css";
 import game1Img from "../../assets/game1.webp";
 import game2Img from "../../assets/game2.webp";
 
-/* Game card component */
+/*  Game Card Component
+   Displays an individual game card with image, info, difficulty, progress */
 const GameCard = ({
   title,
   subtitle,
@@ -18,15 +19,19 @@ const GameCard = ({
 }) => {
   return (
     <div className="pm-games-card" role="article" aria-label={title}>
+      {/* Game preview image */}
       <div
         className="pm-games-image"
         style={{ backgroundImage: `url(${img})` }}
         aria-hidden="true"
       />
+
+      {/* Card content */}
       <div className="pm-games-body">
         <h3 className="pm-games-title">{title}</h3>
         <p className="pm-games-muted muted">{subtitle}</p>
 
+        {/* Difficulty section */}
         <div className="pm-games-meta-row">
           <div className="pm-games-label">DIFFICULTY</div>
           <div className="pm-games-dots">
@@ -41,6 +46,7 @@ const GameCard = ({
           </div>
         </div>
 
+        {/* Progress bar */}
         <div className="pm-games-progress-row">
           <div className="pm-games-label">PROGRESS</div>
           <div className="pm-games-progress">
@@ -51,6 +57,7 @@ const GameCard = ({
           </div>
         </div>
 
+        {/* Action buttons */}
         <div className="pm-games-card-actions">
           <Link className="pm-games-play-btn" to={`/game${gameid}`}>
             Play
@@ -64,9 +71,11 @@ const GameCard = ({
   );
 };
 
-/* Sidebar component */
+/* Sidebar Component
+   Shows profile, achievements and top coders */
 const Sidebar = () => (
   <aside className="pm-games-sidebar" aria-label="Sidebar">
+    {/* Profile card */}
     <div className="pm-games-profile pm-games-side-card pm-games-hover-glow">
       <div className="pm-games-profile-top">
         <div className="pm-games-avatar">S</div>
@@ -77,6 +86,8 @@ const Sidebar = () => (
           </div>
         </div>
       </div>
+
+      {/* Profile statistics */}
       <div className="pm-games-profile-stats">
         <div>
           <span className="pm-games-stat-title">Code Credits</span>
@@ -89,6 +100,7 @@ const Sidebar = () => (
       </div>
     </div>
 
+    {/* Achievements */}
     <div className="pm-games-achievements pm-games-side-card">
       <h4>ACHIEVEMENTS</h4>
       <div className="pm-games-ach-grid">
@@ -104,6 +116,7 @@ const Sidebar = () => (
       </div>
     </div>
 
+    {/* Top coders list */}
     <div className="pm-games-top-coders pm-games-side-card pm-games-hover-glow">
       <h4>TOP CODERS</h4>
       <ol className="pm-games-rank-list">
@@ -124,14 +137,15 @@ const Sidebar = () => (
   </aside>
 );
 
-/* Main Games component */
+/*Main Games Page
+   Includes hero section + game cards + sidebar*/
 export default function Games() {
   return (
     <div className="pm-app-root">
-      {/* Navbar */}
+      {/* Navigation bar */}
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero banner */}
       <main className="pm-games-site-main">
         <section className="pm-games-hero">
           <div className="pm-games-hero-inner">
@@ -141,24 +155,26 @@ export default function Games() {
             <p className="pm-games-hero-sub">
               Play interactive problem solving games that teach real skills.
             </p>
-            {/* <div className="pm-games-hero-actions">
-              <button className="pm-games-cta">Start Playing</button>
-            </div> */}
           </div>
         </section>
 
-        {/* Content */}
+        {/* Main content */}
         <div className="pm-games-content">
+          {/* Games list */}
           <section className="pm-games-left-col">
             <div className="pm-games-levels-grid" id="games">
+              
+              {/* Game 1 card */}
               <GameCard
-               title="Game 1: Bomb Challenge"
+                title="Game 1: Bomb Challenge"
                 subtitle="Defuse the danger, Solve quick challenges before the timer runs out… or boom."
                 img={game1Img}
                 difficultyDots={1}
                 progress={45}
                 gameid={1}
               />
+
+              {/* Game 2 card */}
               <GameCard
                 title="Game 2: Pharaoh’s Journey"
                 subtitle="Guide the Pharaoh through ancient challenges to collect the five sacred stones and rebuild the great pyramid."
